@@ -1,0 +1,2461 @@
+<!-- WHISPER — ECHO Secure Messenger
+     Built by Commander Bobby Don McWilliams II
+     Passkey for Iqra: iqra2026
+     Commander passkey: bobmc2026
+     Deploy to: whisper.echo-op.com
+     CC Build date: March 23, 2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHISPER — ECHO Secure Messenger</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Share+Tech+Mono&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg2: #0f0f12;
+    --bg3: #141418;
+    --border: rgba(201,168,76,0.2);
+    --border-bright: rgba(201,168,76,0.5);
+    --gold: #C9A84C;
+    --gold-l: #E8C97A;
+    --gold-d: #8a6f2e;
+    --teal: #4DB6AC;
+    --teal-d: rgba(77,182,172,0.15);
+    --red: #EF5350;
+    --red-d: rgba(239,83,80,0.12);
+    --text: #d4c9a8;
+    --text-d: #7a7060;
+    --text-dd: #3a3028;
+    --glow: 0 0 30px rgba(201,168,76,0.1);
+    --glow-strong: 0 0 60px rgba(201,168,76,0.2);
+    --green: #66BB6A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 20% 20%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 600px at 80% 80%, rgba(77,182,172,0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 48px 20px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo-mark {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border-bright);
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 16px;
+    animation: pulse-ring 4s ease-in-out infinite;
+  }
+  .logo-mark::before {
+    content: '\27C1';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gold);
+    font-size: 22px;
+  }
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 50%;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.2); }
+    50% { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(22px, 5vw, 36px);
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--gold-l);
+    text-shadow: 0 0 40px rgba(201,168,76,0.3);
+    margin-bottom: 6px;
+  }
+
+  .tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--text-d);
+    text-transform: uppercase;
+  }
+
+  /* MAIN */
+  main {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* PASSKEY GATE */
+  #gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    animation: fade-in 0.6s ease;
+  }
+
+  .gate-icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(201,168,76,0.4));
+  }
+
+  .gate-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .gate-sub {
+    font-size: 12px;
+    color: var(--text-d);
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .gate-input-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 16px;
+  }
+
+  .gate-input-wrap input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    letter-spacing: 4px;
+    padding: 14px 50px 14px 20px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    text-align: center;
+  }
+
+  .gate-input-wrap input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.1);
+  }
+
+  .eye-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-d);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .eye-toggle:hover { color: var(--gold); }
+
+  .gate-error {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gate-error.show { opacity: 1; }
+
+  /* APP */
+  #app { display: none; animation: fade-in 0.6s ease; }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-d);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -1px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--text); }
+
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--text-d);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* TEXTAREA */
+  .field-wrap {
+    margin-bottom: 20px;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 16px;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  textarea:focus {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 0 20px rgba(201,168,76,0.05);
+  }
+
+  textarea.output-field {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: var(--bg2);
+    border-color: rgba(77,182,172,0.2);
+    color: var(--teal);
+    min-height: 100px;
+  }
+
+  textarea.decoded-field {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    background: rgba(201,168,76,0.03);
+    border-color: rgba(201,168,76,0.3);
+    color: var(--gold-l);
+    min-height: 100px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.05);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn:hover::before { transform: translateX(0); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold-d), var(--gold));
+    color: #0a0a0c;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.2);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 4px 30px rgba(201,168,76,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .btn-copy {
+    background: var(--teal-d);
+    border: 1px solid rgba(77,182,172,0.3);
+    color: var(--teal);
+    padding: 8px 16px;
+    font-size: 10px;
+  }
+  .btn-copy:hover {
+    background: rgba(77,182,172,0.25);
+    border-color: var(--teal);
+  }
+
+  .btn-gate {
+    background: linear-gradient(135deg, #1a160a, var(--gold-d));
+    border: 1px solid var(--border-bright);
+    color: var(--gold-l);
+    padding: 14px 40px;
+    font-size: 12px;
+    letter-spacing: 4px;
+  }
+  .btn-gate:hover {
+    box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .btn-danger {
+    background: var(--red-d);
+    border: 1px solid rgba(239,83,80,0.3);
+    color: var(--red);
+    padding: 10px 20px;
+    font-size: 10px;
+  }
+  .btn-danger:hover {
+    background: rgba(239,83,80,0.25);
+    border-color: var(--red);
+  }
+
+  .btn-teal {
+    background: var(--teal-d);
+    border: 1px solid rgba(77,182,172,0.3);
+    color: var(--teal);
+    padding: 10px 20px;
+    font-size: 10px;
+  }
+  .btn-teal:hover {
+    background: rgba(77,182,172,0.25);
+    border-color: var(--teal);
+  }
+
+  /* LANGUAGE SELECTOR */
+  .lang-select-wrap {
+    margin-bottom: 20px;
+  }
+
+  .lang-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .lang-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .lang-btn:hover {
+    border-color: rgba(201,168,76,0.4);
+    color: var(--text);
+  }
+
+  .lang-btn.active {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* STATUS MESSAGES */
+  .status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px 14px;
+    border-radius: 3px;
+    margin-top: 10px;
+    display: none;
+    animation: fade-in 0.3s ease;
+  }
+
+  .status.success {
+    background: rgba(77,182,172,0.1);
+    border: 1px solid rgba(77,182,172,0.3);
+    color: var(--teal);
+    display: block;
+  }
+
+  .status.error {
+    background: var(--red-d);
+    border: 1px solid rgba(239,83,80,0.3);
+    color: var(--red);
+    display: block;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+    position: relative;
+  }
+  .divider::before {
+    content: '\25C6';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    padding: 0 12px;
+    color: var(--border-bright);
+    font-size: 8px;
+  }
+
+  /* HOW IT WORKS */
+  .how-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 12px;
+  }
+
+  .how-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .how-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-d);
+  }
+
+  .how-card .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    margin-right: 10px;
+    flex-shrink: 0;
+    float: left;
+    margin-top: 2px;
+  }
+
+  /* KEY INFO */
+  .key-display {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-d);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .key-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--teal);
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px var(--teal);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dd);
+  }
+
+  footer a {
+    color: var(--gold-d);
+    text-decoration: none;
+  }
+
+  /* LOCK BAR */
+  .lock-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-bottom: 28px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .lock-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--teal);
+  }
+
+  .lock-bar-right {
+    color: var(--text-d);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .lock-bar-right:hover { color: var(--gold); }
+
+  /* COPY FLASH */
+  .copied-flash {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--teal);
+    color: #0a0a0c;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px 24px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .copied-flash.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* CHARACTER COUNT */
+  .char-count {
+    text-align: right;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dd);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* WARNING */
+  .warning-box {
+    background: rgba(239,83,80,0.06);
+    border: 1px solid rgba(239,83,80,0.2);
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: rgba(239,83,80,0.8);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* MESSENGER STYLES                    */
+  /* ═══════════════════════════════════ */
+
+  /* AUTH FORM */
+  .msg-auth {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .msg-auth-title {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .msg-auth-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-d);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .msg-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-bottom: 12px;
+  }
+  .msg-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(201,168,76,0.08);
+  }
+  .msg-input::placeholder { color: var(--text-dd); }
+
+  .msg-select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .msg-select option { background: var(--bg); }
+
+  .msg-link {
+    color: var(--teal);
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-top: 12px;
+    display: inline-block;
+  }
+  .msg-link:hover { color: var(--gold); }
+
+  .msg-error {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    min-height: 16px;
+  }
+
+  /* MESSENGER UI */
+  .messenger {
+    display: none;
+    height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .msg-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .msg-header-user {
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .msg-header-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .msg-header-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 14px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .msg-header-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .msg-body {
+    display: flex;
+    height: calc(100% - 44px);
+  }
+
+  /* SIDEBAR */
+  .msg-sidebar {
+    width: 240px;
+    border-right: 1px solid var(--border);
+    background: var(--bg2);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .msg-search-wrap {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .msg-search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .msg-search:focus { border-color: var(--gold); }
+
+  .msg-search-results {
+    max-height: 150px;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--border);
+    display: none;
+  }
+
+  .msg-search-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text);
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    transition: background 0.2s;
+  }
+  .msg-search-item:hover { background: rgba(201,168,76,0.05); }
+  .msg-search-item .email { font-size: 10px; color: var(--text-d); }
+
+  .msg-conv-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .msg-conv-item {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    transition: background 0.2s;
+  }
+  .msg-conv-item:hover { background: rgba(201,168,76,0.05); }
+  .msg-conv-item.active { background: rgba(201,168,76,0.08); border-left: 2px solid var(--gold); }
+
+  .msg-conv-name {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .msg-conv-preview {
+    font-size: 11px;
+    color: var(--text-d);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .online-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  /* CHAT AREA */
+  .msg-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+
+  .msg-chat-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+  }
+
+  .msg-chat-call-btn {
+    background: none;
+    border: 1px solid rgba(77,182,172,0.3);
+    color: var(--teal);
+    font-size: 16px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .msg-chat-call-btn:hover {
+    background: var(--teal-d);
+    border-color: var(--teal);
+  }
+
+  .msg-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .msg-empty {
+    text-align: center;
+    color: var(--text-dd);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 40px;
+  }
+
+  .msg-bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    word-wrap: break-word;
+  }
+
+  .msg-bubble.sent {
+    align-self: flex-end;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold-l);
+    border-bottom-right-radius: 2px;
+  }
+
+  .msg-bubble.received {
+    align-self: flex-start;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-bottom-left-radius: 2px;
+  }
+
+  .msg-bubble .msg-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dd);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  .msg-bubble .msg-translated {
+    font-size: 11px;
+    color: var(--text-d);
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    font-style: italic;
+  }
+
+  .msg-bubble .msg-media {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+
+  .msg-typing {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-d);
+    padding: 0 16px 4px;
+    min-height: 18px;
+  }
+
+  /* INPUT BAR */
+  .msg-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .msg-input-bar input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    outline: none;
+  }
+  .msg-input-bar input:focus { border-color: var(--gold); }
+
+  .msg-send-btn {
+    background: linear-gradient(135deg, var(--gold-d), var(--gold));
+    border: none;
+    color: #0a0a0c;
+    font-size: 16px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+  }
+  .msg-send-btn:hover { box-shadow: 0 0 15px rgba(201,168,76,0.3); }
+
+  .msg-attach-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .msg-attach-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ═══════════════════════════════════ */
+  /* VIDEO CALL STYLES                   */
+  /* ═══════════════════════════════════ */
+
+  .call-container {
+    position: relative;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 500px;
+  }
+
+  .call-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #remote-video {
+    width: 100%;
+    height: 100%;
+    background: #000;
+  }
+
+  #local-video {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 160px;
+    height: 120px;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    z-index: 5;
+    background: #111;
+  }
+
+  .call-controls {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+  }
+
+  .call-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .call-btn-mute {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  .call-btn-mute.muted { background: var(--red); color: #fff; }
+
+  .call-btn-end {
+    background: var(--red);
+    color: #fff;
+  }
+  .call-btn-end:hover { background: #d32f2f; }
+
+  .call-btn-video {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  .call-btn-video.off { background: var(--red); }
+
+  .call-status {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--teal);
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 16px;
+    border-radius: 3px;
+  }
+
+  .call-no-active {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-d);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* INCOMING CALL OVERLAY */
+  .incoming-call-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .incoming-call-overlay.show { display: flex; }
+
+  .incoming-caller {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--gold-l);
+    letter-spacing: 4px;
+  }
+
+  .incoming-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    letter-spacing: 3px;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  .incoming-btns {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .incoming-accept {
+    background: var(--green);
+    color: #000;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .incoming-reject {
+    background: var(--red);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-bright); }
+
+  @media (max-width: 600px) {
+    h1 { letter-spacing: 3px; }
+    .tab { font-size: 8px; letter-spacing: 1px; padding: 10px 4px; }
+    .btn { font-size: 10px; letter-spacing: 2px; padding: 11px 20px; }
+    .msg-sidebar { width: 180px; }
+    .messenger { height: 480px; }
+    #local-video { width: 100px; height: 75px; }
+  }
+
+  @media (max-width: 420px) {
+    .msg-sidebar { display: none; }
+    .msg-body { flex-direction: column; }
+    .msg-conv-list-mobile { display: block; }
+  }
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<header>
+  <div class="logo-mark"></div>
+  <h1>WHISPER</h1>
+  <div class="tagline">Echo Secure Message Encoder &middot; echo-op.com</div>
+</header>
+
+<main>
+
+  <!-- PASSKEY GATE -->
+  <div id="gate">
+    <div class="gate-icon">&#x1F510;</div>
+    <div class="gate-title">Access Required</div>
+    <div class="gate-sub">Enter the shared passkey to use this encoder.<br>Both sender and receiver must use the same passkey.</div>
+    <div class="gate-input-wrap">
+      <input type="password" id="gate-key" placeholder="enter passkey" autocomplete="off" maxlength="64" onkeydown="if(event.key==='Enter') unlockApp()">
+      <button class="eye-toggle" onclick="toggleGateEye()" id="gate-eye">&#x1F441;</button>
+    </div>
+    <div class="gate-error" id="gate-err">&#x26A0; PASSKEY REQUIRED</div>
+    <button class="btn btn-gate" onclick="unlockApp()">UNLOCK</button>
+  </div>
+
+  <!-- APP (hidden until passkey entered) -->
+  <div id="app">
+
+    <!-- LOCK BAR -->
+    <div class="lock-bar">
+      <div class="lock-bar-left">
+        <div class="key-dot"></div>
+        <span id="key-display-label">SESSION ACTIVE</span>
+      </div>
+      <div class="lock-bar-right" onclick="lockApp()">&#x2B21; LOCK SESSION</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('encode', this)">Encode</button>
+      <button class="tab" onclick="showTab('decode', this)">Decode</button>
+      <button class="tab" onclick="showTab('howto', this)">How It Works</button>
+      <button class="tab" onclick="showTab('messenger', this)">Messenger</button>
+      <button class="tab" onclick="showTab('call', this)">Video Call</button>
+    </div>
+
+    <!-- ENCODE PANEL -->
+    <div class="panel active" id="panel-encode">
+      <div class="field-wrap">
+        <div class="section-label">Your message</div>
+        <textarea id="encode-input" placeholder="Type your message here..." oninput="updateCharCount('encode-input','encode-count')"></textarea>
+        <div class="char-count" id="encode-count">0 characters</div>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:20px;">
+        <button class="btn btn-primary" onclick="encodeMessage()">&#x27C1; ENCODE MESSAGE</button>
+        <button class="btn btn-secondary" onclick="clearEncode()">&#x2715; CLEAR</button>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field-wrap">
+        <div class="section-label">Encoded output &mdash; paste this into WhatsApp, SMS, or any message</div>
+        <textarea id="encode-output" class="output-field" placeholder="Your scrambled message will appear here..." readonly></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('encode-output')">&#x2295; COPY ENCODED MESSAGE</button>
+      </div>
+
+      <div class="status" id="encode-status"></div>
+    </div>
+
+    <!-- DECODE PANEL -->
+    <div class="panel" id="panel-decode">
+      <div class="field-wrap">
+        <div class="section-label">Paste the encoded message here</div>
+        <textarea id="decode-input" placeholder="Paste the scrambled message you received..." oninput="updateCharCount('decode-input','decode-count')"></textarea>
+        <div class="char-count" id="decode-count">0 characters</div>
+      </div>
+
+      <div class="lang-select-wrap">
+        <div class="section-label">Read the decoded message in</div>
+        <div class="lang-options">
+          <button class="lang-btn active" data-lang="en" onclick="selectLang(this)">English</button>
+          <button class="lang-btn" data-lang="ur" onclick="selectLang(this)">Urdu Roman</button>
+          <button class="lang-btn" data-lang="ne" onclick="selectLang(this)">Nepali Roman</button>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:20px;">
+        <button class="btn btn-primary" onclick="decodeMessage()">&#x27C1; DECODE MESSAGE</button>
+        <button class="btn btn-secondary" onclick="clearDecode()">&#x2715; CLEAR</button>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field-wrap">
+        <div class="section-label">Decoded message</div>
+        <textarea id="decode-output" class="decoded-field" placeholder="Your decoded message will appear here..." readonly></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('decode-output')">&#x2295; COPY DECODED TEXT</button>
+      </div>
+
+      <div class="status" id="decode-status"></div>
+    </div>
+
+    <!-- HOW IT WORKS PANEL -->
+    <div class="panel" id="panel-howto">
+      <div class="how-card">
+        <h3>How to send a hidden message</h3>
+        <p style="overflow:hidden;">
+          <span class="step-num">1</span> Both you and the person you are messaging must have the same passkey. Share it with them once in person, by phone, or via a method separate from the message itself.<br><br>
+          <span class="step-num" style="float:left;margin-top:8px;">2</span> <span style="display:block;overflow:hidden;">You type your message into the ENCODE tab and click Encode. You get back a string of scrambled characters that looks like gibberish.</span><br><br>
+          <span class="step-num" style="float:left;margin-top:8px;">3</span> <span style="display:block;overflow:hidden;">You paste that scrambled string into WhatsApp, SMS, email, or any message platform. Anyone who sees it cannot read it.</span><br><br>
+          <span class="step-num" style="float:left;margin-top:8px;">4</span> <span style="display:block;overflow:hidden;">The recipient goes to whisper.echo-op.com, enters the same passkey, pastes the scrambled text into the DECODE tab, selects their language, and reads the original message.</span>
+        </p>
+      </div>
+
+      <div class="how-card">
+        <h3>About the passkey</h3>
+        <p>The passkey is used to generate the encryption key for your messages. Without the correct passkey, the decoded output will be unreadable garbage. The passkey is never transmitted, never stored, and never leaves your device. It exists only in your memory and the memory of your recipient.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>About the languages</h3>
+        <p>The decoder can deliver your message in three languages. <strong style="color:var(--gold);">English</strong> &mdash; the original message as you wrote it. <strong style="color:var(--gold);">Urdu Roman</strong> &mdash; phonetic Romanized Urdu. <strong style="color:var(--gold);">Nepali Roman</strong> &mdash; phonetic Romanized Nepali. Words not in the dictionary are kept in English.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>Privacy</h3>
+        <p>The cipher tool runs entirely in your browser. No message is ever sent to any server. The Messenger tab uses end-to-end encryption via Cloudflare infrastructure. Video calls are peer-to-peer &mdash; no video passes through any server.</p>
+      </div>
+    </div>
+
+    <!-- MESSENGER PANEL -->
+    <div class="panel" id="panel-messenger">
+
+      <!-- AUTH FORM (shown before login) -->
+      <div id="msg-auth-view">
+        <div class="msg-auth">
+          <div class="msg-auth-title">WHISPER SECURE MESSENGER</div>
+          <div class="msg-auth-sub">ENCRYPTED &middot; TRANSLATED &middot; PRIVATE</div>
+
+          <hr class="divider">
+
+          <!-- LOGIN FORM -->
+          <div id="msg-login-form">
+            <input class="msg-input" type="email" id="login-email" placeholder="Email" autocomplete="email">
+            <input class="msg-input" type="password" id="login-password" placeholder="Password" autocomplete="current-password">
+            <div class="msg-error" id="login-error"></div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px;" onclick="msgLogin()">SIGN IN</button>
+            <span class="msg-link" onclick="toggleAuthForm('register')">Don't have an account? Register</span>
+          </div>
+
+          <!-- REGISTER FORM -->
+          <div id="msg-register-form" style="display:none;">
+            <input class="msg-input" type="text" id="reg-name" placeholder="Display Name" autocomplete="name">
+            <input class="msg-input" type="email" id="reg-email" placeholder="Email" autocomplete="email">
+            <input class="msg-input" type="password" id="reg-password" placeholder="Password (min 6 chars)" autocomplete="new-password">
+            <select class="msg-select" id="reg-language">
+              <option value="en">English</option>
+              <option value="ur">Urdu Roman</option>
+              <option value="ne">Nepali Roman</option>
+              <option value="es">Spanish</option>
+            </select>
+            <div class="msg-error" id="reg-error"></div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px;" onclick="msgRegister()">REGISTER</button>
+            <span class="msg-link" onclick="toggleAuthForm('login')">Already have an account? Sign In</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSENGER UI (shown after login) -->
+      <div class="messenger" id="msg-ui">
+        <div class="msg-header">
+          <div class="msg-header-user">
+            <div class="online-dot"></div>
+            <span id="msg-current-user">--</span>
+          </div>
+          <div class="msg-header-actions">
+            <button class="msg-header-btn" onclick="msgLogout()" title="Sign Out">&#x23FB;</button>
+          </div>
+        </div>
+        <div class="msg-body">
+          <!-- SIDEBAR -->
+          <div class="msg-sidebar">
+            <div class="msg-search-wrap">
+              <input class="msg-search" id="msg-user-search" placeholder="Search users..." oninput="msgSearchUsers()">
+            </div>
+            <div class="msg-search-results" id="msg-search-results"></div>
+            <!-- SIDEBAR TABS: Conversations / Users -->
+            <div style="display:flex;border-bottom:1px solid var(--border);">
+              <button class="msg-sidebar-tab active" id="sidebar-tab-convs" onclick="switchSidebarTab('convs')" style="flex:1;background:none;border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;padding:8px 4px;cursor:pointer;">CHATS</button>
+              <button class="msg-sidebar-tab" id="sidebar-tab-users" onclick="switchSidebarTab('users')" style="flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-d);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;padding:8px 4px;cursor:pointer;">USERS</button>
+            </div>
+            <div class="msg-conv-list" id="msg-conv-list">
+              <div class="msg-empty" style="padding:20px;">No conversations yet</div>
+            </div>
+            <div class="msg-conv-list" id="msg-user-list" style="display:none;">
+              <div class="msg-empty" style="padding:20px;">Loading users...</div>
+            </div>
+          </div>
+          <!-- CHAT -->
+          <div class="msg-chat">
+            <div class="msg-chat-header">
+              <span id="msg-chat-name">Select a conversation</span>
+              <button class="msg-chat-call-btn" id="msg-call-btn" onclick="startVideoCall()" title="Video Call" style="display:none;">&#x1F4F9;</button>
+            </div>
+            <div class="msg-messages" id="msg-messages">
+              <div class="msg-empty">Select a conversation to start messaging</div>
+            </div>
+            <div class="msg-typing" id="msg-typing"></div>
+            <div class="msg-input-bar" style="display:none;" id="msg-input-bar">
+              <button class="msg-attach-btn" onclick="document.getElementById('msg-file-input').click()" title="Attach media">&#x1F4CE;</button>
+              <input type="file" id="msg-file-input" style="display:none;" accept="image/*,video/*,audio/*,.pdf" onchange="msgAttachFile(this)">
+              <input type="text" id="msg-text-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') msgSend()">
+              <button class="msg-send-btn" onclick="msgSend()">&#x27A4;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO CALL PANEL -->
+    <div class="panel" id="panel-call">
+      <div id="call-inactive" class="call-no-active">
+        <p>&#x1F4F9; VIDEO CALL</p>
+        <p style="margin-top:12px;color:var(--text-dd);">Open a conversation in Messenger and click the video icon to start a call.</p>
+        <p style="margin-top:6px;color:var(--text-dd);">Calls are peer-to-peer &mdash; no video passes through any server.</p>
+      </div>
+      <div id="call-active" class="call-container" style="display:none;">
+        <video id="remote-video" autoplay playsinline></video>
+        <video id="local-video" autoplay playsinline muted></video>
+        <div class="call-status" id="call-status">CONNECTING...</div>
+        <div class="call-controls">
+          <button class="call-btn call-btn-mute" id="btn-mute-audio" onclick="toggleMuteAudio()">&#x1F50A;</button>
+          <button class="call-btn call-btn-video" id="btn-mute-video" onclick="toggleMuteVideo()">&#x1F4F7;</button>
+          <button class="call-btn call-btn-end" onclick="endCall()">&#x260E;</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end #app -->
+
+</main>
+
+<footer>
+  WHISPER &middot; <a href="https://echo-op.com">ECHO OMEGA PRIME</a> &middot; COMMANDER BOBBY DON McWILLIAMS II &middot; 2026
+</footer>
+
+<div class="copied-flash" id="copied-flash">COPIED TO CLIPBOARD</div>
+
+<!-- INCOMING CALL OVERLAY -->
+<div class="incoming-call-overlay" id="incoming-call-overlay">
+  <div class="incoming-label">INCOMING VIDEO CALL</div>
+  <div class="incoming-caller" id="incoming-caller-name">Unknown</div>
+  <div class="incoming-btns">
+    <button class="incoming-accept" onclick="acceptIncomingCall()">&#x1F4DE;</button>
+    <button class="incoming-reject" onclick="rejectIncomingCall()">&#x260E;</button>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// CONFIG
+// ================================================================
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'https://signal-messenger.bmcii1976.workers.dev'
+  : '';  // Same origin when served from worker
+const WS_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'wss://signal-messenger.bmcii1976.workers.dev'
+  : 'wss://' + location.host;
+
+// ================================================================
+// CIPHER ENGINE (unchanged from original)
+// ================================================================
+
+let SESSION_KEY = '';
+let selectedLang = 'en';
+
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function buildCipherTable(passkey) {
+  const key = passkey.toLowerCase().trim();
+  let seed = 0;
+  for (let i = 0; i < key.length; i++) {
+    seed = ((seed << 5) - seed) + key.charCodeAt(i);
+    seed |= 0;
+  }
+  const rng = mulberry32(seed);
+
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?\'"-:;()\n';
+  const subChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOP';
+
+  const sub = subChars.split('');
+  for (let i = sub.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [sub[i], sub[j]] = [sub[j], sub[i]];
+  }
+
+  const noisePool = 'xyzXYZqrstQRST789456';
+  const noiseArr = noisePool.split('');
+  for (let i = noiseArr.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [noiseArr[i], noiseArr[j]] = [noiseArr[j], noiseArr[i]];
+  }
+
+  const encMap = {};
+  const decMap = {};
+
+  for (let i = 0; i < chars.length; i++) {
+    const c = chars[i];
+    const s = sub[i % sub.length];
+    encMap[c] = s;
+    decMap[s] = c;
+  }
+
+  return { encMap, decMap, noiseArr, rng };
+}
+
+function encode(message, passkey) {
+  const { encMap, noiseArr } = buildCipherTable(passkey);
+  let encoded = '';
+  for (let i = 0; i < message.length; i++) {
+    const c = message[i];
+    encoded += encMap[c] !== undefined ? encMap[c] : c;
+  }
+  let noisy = '';
+  for (let i = 0; i < encoded.length; i++) {
+    noisy += encoded[i];
+    if ((i + 1) % 4 === 0 && i < encoded.length - 1) {
+      noisy += noiseArr[i % noiseArr.length];
+    }
+  }
+  const headerSeed = passkey.length.toString(16).padStart(2,'0') +
+                     (passkey.charCodeAt(0) % 16).toString(16) +
+                     (passkey.charCodeAt(passkey.length-1) % 16).toString(16);
+  return headerSeed + noisy;
+}
+
+function decode(encoded, passkey) {
+  const { decMap, noiseArr } = buildCipherTable(passkey);
+  const noisy = encoded.slice(4);
+  let clean = '';
+  let pos = 0;
+  for (let i = 0; i < noisy.length; i++) {
+    pos++;
+    if (pos === 5) {
+      pos = 0;
+      continue;
+    }
+    clean += noisy[i];
+  }
+  let decoded = '';
+  for (let i = 0; i < clean.length; i++) {
+    const c = clean[i];
+    decoded += decMap[c] !== undefined ? decMap[c] : c;
+  }
+  return decoded;
+}
+
+// ================================================================
+// TRANSLATION DICTIONARIES (unchanged from original)
+// ================================================================
+
+const URDU = {
+  'hello': 'salam', 'hi': 'hi', 'goodbye': 'khuda hafiz', 'bye': 'bye',
+  'good': 'acha', 'morning': 'subah', 'evening': 'sham', 'night': 'raat',
+  'how': 'kaise', 'are': 'hain', 'you': 'aap', 'i': 'main', 'me': 'mujhe',
+  'we': 'hum', 'they': 'woh', 'he': 'woh', 'she': 'woh', 'it': 'yeh',
+  'yes': 'haan', 'no': 'nahi', 'please': 'meherbani', 'thank': 'shukriya',
+  'thanks': 'shukriya', 'sorry': 'maafi', 'ok': 'theek hai', 'okay': 'theek hai',
+  'now': 'abhi', 'soon': 'jald', 'later': 'baad mein', 'today': 'aaj',
+  'tomorrow': 'kal', 'yesterday': 'kal', 'time': 'waqt', 'wait': 'intezar karo',
+  'love': 'pyaar', 'miss': 'yaad', 'happy': 'khush', 'sad': 'udaas',
+  'scared': 'dara hua', 'safe': 'mehfooz', 'afraid': 'dara hua',
+  'worry': 'fikr', 'hope': 'umeed', 'pray': 'dua karo', 'trust': 'bharosa',
+  'believe': 'yakeen karo', 'faith': 'iman', 'peace': 'amaan',
+  'go': 'jao', 'come': 'aao', 'stay': 'raho', 'leave': 'chale jao',
+  'read': 'parho', 'open': 'kholna', 'send': 'bhejna', 'call': 'call karo',
+  'tell': 'batao', 'know': 'jano', 'see': 'dekho', 'hear': 'suno',
+  'get': 'lena', 'give': 'dena', 'take': 'lena', 'run': 'bhago',
+  'keep': 'rakho', 'hold': 'pakdo', 'find': 'dhundho', 'need': 'zaroorat',
+  'want': 'chahna', 'can': 'sakte hain', 'will': 'ga', 'must': 'zaroor',
+  'should': 'chahiye', 'have': 'hai', 'has': 'hai', 'had': 'tha',
+  'family': 'gharwale', 'friend': 'dost', 'mother': 'ammi', 'father': 'abbu',
+  'sister': 'behen', 'brother': 'bhai', 'children': 'bachche', 'child': 'bacha',
+  'god': 'khuda', 'lord': 'khudawand', 'people': 'log', 'everyone': 'sab',
+  'important': 'zaroori', 'urgent': 'foori', 'danger': 'khatarnak',
+  'help': 'madad', 'message': 'paigham',
+  'ready': 'tayyar', 'done': 'hoga', 'finished': 'khatam', 'start': 'shuru',
+  'stop': 'ruko', 'careful': 'dhyan raho', 'remember': 'yaad rakhna',
+  'forget': 'bhool', 'understand': 'samjho', 'listen': 'suno',
+  'home': 'ghar', 'here': 'yahan', 'there': 'wahan', 'where': 'kahan',
+  'when': 'kab', 'what': 'kya', 'why': 'kyun', 'who': 'kaun', 'which': 'kaun sa',
+  'one': 'ek', 'two': 'do', 'three': 'teen', 'four': 'char', 'five': 'paanch',
+  'and': 'aur', 'but': 'lekin', 'or': 'ya', 'so': 'to', 'because': 'kyunke',
+  'if': 'agar', 'then': 'to', 'that': 'woh', 'this': 'yeh', 'with': 'ke saath',
+  'without': 'bina', 'for': 'ke liye', 'from': 'se', 'to': 'ko', 'of': 'ka',
+  'in': 'mein', 'on': 'par', 'at': 'par', 'about': 'ke baare mein',
+  'after': 'baad', 'before': 'pehle', 'not': 'nahi', "don't": 'mat',
+  'never': 'kabhi nahi', 'always': 'hamesha', 'still': 'abhi bhi',
+  'saved': 'najaaat paayein', 'salvation': 'najaat', 'jesus': 'Isa',
+  'christ': 'Masih', 'prayer': 'dua', 'sin': 'gunah', 'forgive': 'maaf karo',
+  'heaven': 'jannat', 'dead': 'mara hua', 'alive': 'zinda', 'life': 'zindagi',
+  'eternal': 'abadi', 'mark': 'nishaan', 'beast': 'darinda', 'coming': 'aa raha hai',
+  'return': 'wapas aana',
+  'the': 'woh', 'a': 'ek', 'an': 'ek', 'is': 'hai', 'was': 'tha', 'be': 'ho',
+  'been': 'raha', 'being': 'ho raha', 'very': 'bohot', 'much': 'zyada',
+  'more': 'aur zyada', 'less': 'kam', 'all': 'sab', 'some': 'kuch',
+  'any': 'koi', 'many': 'bohot sare', 'few': 'kuch', 'new': 'naya',
+  'old': 'purana', 'big': 'bara', 'small': 'chota', 'long': 'lamba',
+  'short': 'chota', 'bad': 'bura', 'right': 'sahi',
+  'wrong': 'galat', 'true': 'sach', 'false': 'jhoot',
+  'husband': 'shohar', 'wife': 'biwi', 'son': 'beta', 'daughter': 'beti',
+  'baby': 'jaan', 'darling': 'dilruba', 'sweetheart': 'dil ka chain',
+  'beautiful': 'khoobsurat', 'my love': 'meri jaan',
+  'water': 'paani', 'food': 'khana', 'eat': 'khao', 'sleep': 'so jao',
+  'work': 'kaam', 'money': 'paise', 'doctor': 'doctor', 'sick': 'beemar',
+  'school': 'school', 'picture': 'tasveer', 'photo': 'tasveer', 'video': 'video',
+};
+
+const NEPALI = {
+  'hello': 'namaste', 'hi': 'namaste', 'goodbye': 'bidai', 'bye': 'bye',
+  'good': 'ramro', 'morning': 'bihana', 'evening': 'beluka', 'night': 'raat',
+  'you': 'tapai', 'i': 'ma', 'me': 'malai', 'we': 'hami', 'they': 'tini haru',
+  'he': 'u', 'she': 'u', 'it': 'yo',
+  'yes': 'ho', 'no': 'hoina', 'please': 'kripaya', 'thank': 'dhanyabad',
+  'thanks': 'dhanyabad', 'sorry': 'maaf garnus', 'ok': 'thik cha',
+  'now': 'ahile', 'soon': 'chado', 'later': 'pachhi', 'today': 'aaja',
+  'tomorrow': 'bholi', 'yesterday': 'hijo', 'time': 'samaya', 'wait': 'parkha',
+  'love': 'maya', 'miss': 'yaad', 'happy': 'khushi', 'sad': 'dukhi',
+  'safe': 'surakshit', 'afraid': 'dar', 'scared': 'dar lagyo',
+  'worry': 'chinta', 'hope': 'aasha', 'pray': 'prarthana gara', 'trust': 'bharosa',
+  'believe': 'biswas gara', 'faith': 'biswas', 'peace': 'shanti',
+  'go': 'jau', 'come': 'aau', 'stay': 'basa', 'leave': 'jau',
+  'read': 'padha', 'open': 'khol', 'send': 'pathau', 'call': 'phone gara',
+  'tell': 'bhan', 'know': 'jan', 'see': 'hera', 'hear': 'sun',
+  'get': 'pau', 'give': 'deu', 'take': 'lia', 'run': 'dauda',
+  'keep': 'rakha', 'hold': 'samata', 'find': 'khoja', 'need': 'chahiyo',
+  'want': 'chahan', 'can': 'sakcha', 'will': 'cha', 'must': 'parchha',
+  'should': 'garna parchha', 'have': 'cha', 'has': 'cha',
+  'family': 'pariwar', 'friend': 'saathi', 'mother': 'aama', 'father': 'buba',
+  'sister': 'didi/bahini', 'brother': 'dai/bhai', 'children': 'bachcha',
+  'god': 'ishwar', 'lord': 'prabhu', 'people': 'manchhe', 'everyone': 'sabai',
+  'important': 'mahatwapurna', 'urgent': 'acchit', 'danger': 'khatara',
+  'help': 'sahayog', 'message': 'sandesh', 'ready': 'tayyar',
+  'done': 'bhayo', 'finished': 'sakkiyo', 'start': 'suruu', 'stop': 'roka',
+  'careful': 'saawdhan', 'remember': 'samachha', 'understand': 'bujhna',
+  'and': 'ra', 'but': 'tara', 'or': 'wa', 'so': 'ta', 'because': 'kina bhan',
+  'if': 'yadi', 'then': 'bhane', 'that': 'tyo', 'this': 'yo',
+  'with': 'saath', 'without': 'bina', 'for': 'ko lagi', 'from': 'bata',
+  'to': 'lai', 'of': 'ko', 'in': 'ma', 'on': 'ma', 'at': 'ma',
+  'after': 'pachhi', 'before': 'aghi', 'not': 'chaina', "don't": 'nagara',
+  'never': 'kahilyai pani hoina', 'always': 'sadhai', 'still': 'ajha pani',
+  'saved': 'uddhar payo', 'salvation': 'uddhar', 'jesus': 'Yesu',
+  'christ': 'Masih', 'prayer': 'prarthana', 'sin': 'paap',
+  'forgive': 'maaf gara', 'heaven': 'swarga', 'dead': 'mareko',
+  'alive': 'bacheko', 'life': 'jivan', 'eternal': 'shaswat',
+  'mark': 'chihn', 'coming': 'aaudaichha',
+  'the': 'tyo', 'a': 'ek', 'an': 'ek', 'is': 'cha', 'was': 'thiyo',
+  'be': 'hunu', 'very': 'dherai', 'much': 'dherai', 'more': 'aru dherai',
+  'all': 'sabai', 'some': 'kehi', 'any': 'kunai', 'many': 'dherai',
+  'new': 'naya', 'old': 'purano', 'big': 'thulo', 'small': 'sano',
+  'bad': 'naramro', 'right': 'thik', 'wrong': 'galat',
+  'true': 'sach', 'false': 'jhuto',
+  'home': 'ghar', 'here': 'yahan', 'there': 'tyahan', 'where': 'kaha',
+  'when': 'kahile', 'what': 'ke', 'why': 'kina', 'who': 'ko', 'which': 'kun',
+  'husband': 'shriman', 'wife': 'shrimati', 'son': 'chhora', 'daughter': 'chhori',
+  'baby': 'babu', 'darling': 'priya', 'sweetheart': 'maya',
+  'beautiful': 'sundar', 'my love': 'mero maya',
+  'water': 'pani', 'food': 'khana', 'eat': 'khau', 'sleep': 'sut',
+  'work': 'kaam', 'money': 'paisa', 'doctor': 'daktar', 'sick': 'birami',
+  'school': 'bidhyalaya', 'picture': 'tasvir', 'photo': 'tasvir', 'video': 'video',
+};
+
+function translateToRoman(text, dict) {
+  const words = text.split(/(\s+|[.,!?;:\-"'()\n])/);
+  return words.map(part => {
+    const lower = part.toLowerCase().replace(/[.,!?;:\-"'()]/g, '');
+    if (dict[lower]) return dict[lower];
+    if (lower.endsWith('s') && dict[lower.slice(0,-1)]) return dict[lower.slice(0,-1)];
+    if (lower.endsWith('ing') && dict[lower.slice(0,-3)]) return dict[lower.slice(0,-3)] + ' kar raha';
+    return part;
+  }).join('');
+}
+
+// ================================================================
+// UI FUNCTIONS (cipher — unchanged)
+// ================================================================
+
+function unlockApp() {
+  const key = document.getElementById('gate-key').value.trim();
+  if (!key) {
+    const err = document.getElementById('gate-err');
+    err.classList.add('show');
+    document.getElementById('gate-key').style.borderColor = 'var(--red)';
+    setTimeout(() => {
+      err.classList.remove('show');
+      document.getElementById('gate-key').style.borderColor = '';
+    }, 2000);
+    return;
+  }
+  SESSION_KEY = key;
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('key-display-label').textContent =
+    'PASSKEY ACTIVE \u00B7 ' + '\u2022'.repeat(Math.min(key.length, 8));
+
+  // Check if we have a saved messenger token
+  const saved = localStorage.getItem('whisper_token');
+  if (saved) {
+    msgToken = saved;
+    msgLoadProfile();
+  }
+}
+
+function lockApp() {
+  SESSION_KEY = '';
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('gate-key').value = '';
+  document.getElementById('encode-input').value = '';
+  document.getElementById('encode-output').value = '';
+  document.getElementById('decode-input').value = '';
+  document.getElementById('decode-output').value = '';
+  // Reset messenger view
+  msgLogout();
+}
+
+function toggleGateEye() {
+  const input = document.getElementById('gate-key');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else document.querySelector('.tab[onclick*="' + name + '"]').classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+function selectLang(btn) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedLang = btn.getAttribute('data-lang');
+}
+
+function encodeMessage() {
+  const msg = document.getElementById('encode-input').value.trim();
+  if (!msg) {
+    showStatus('encode-status', 'error', '\u26A0 NO MESSAGE TO ENCODE');
+    return;
+  }
+  const encoded = encode(msg, SESSION_KEY);
+  document.getElementById('encode-output').value = encoded;
+  showStatus('encode-status', 'success', '\u2713 MESSAGE ENCODED \u2014 COPY AND SEND IT');
+}
+
+function decodeMessage() {
+  const encoded = document.getElementById('decode-input').value.trim();
+  if (!encoded) {
+    showStatus('decode-status', 'error', '\u26A0 NO ENCODED MESSAGE TO DECODE');
+    return;
+  }
+  if (encoded.length < 5) {
+    showStatus('decode-status', 'error', '\u26A0 MESSAGE TOO SHORT \u2014 IS IT COMPLETE?');
+    return;
+  }
+  try {
+    let decoded = decode(encoded, SESSION_KEY);
+    if (selectedLang === 'ur') decoded = translateToRoman(decoded, URDU);
+    else if (selectedLang === 'ne') decoded = translateToRoman(decoded, NEPALI);
+    document.getElementById('decode-output').value = decoded;
+    const langName = selectedLang === 'ur' ? 'URDU ROMAN' : selectedLang === 'ne' ? 'NEPALI ROMAN' : 'ENGLISH';
+    showStatus('decode-status', 'success', '\u2713 MESSAGE DECODED IN ' + langName);
+  } catch(e) {
+    showStatus('decode-status', 'error', '\u26A0 DECODE FAILED \u2014 CHECK YOUR PASSKEY');
+  }
+}
+
+function clearEncode() {
+  document.getElementById('encode-input').value = '';
+  document.getElementById('encode-output').value = '';
+  document.getElementById('encode-count').textContent = '0 characters';
+  hideStatus('encode-status');
+}
+
+function clearDecode() {
+  document.getElementById('decode-input').value = '';
+  document.getElementById('decode-output').value = '';
+  document.getElementById('decode-count').textContent = '0 characters';
+  hideStatus('decode-status');
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  if (!el.value.trim()) return;
+  navigator.clipboard.writeText(el.value).then(() => {
+    const flash = document.getElementById('copied-flash');
+    flash.classList.add('show');
+    setTimeout(() => flash.classList.remove('show'), 2000);
+  }).catch(() => {
+    el.select();
+    document.execCommand('copy');
+  });
+}
+
+function updateCharCount(inputId, countId) {
+  const len = document.getElementById(inputId).value.length;
+  document.getElementById(countId).textContent = len + ' character' + (len !== 1 ? 's' : '');
+}
+
+function showStatus(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = 'status ' + type;
+  el.textContent = msg;
+}
+
+function hideStatus(id) {
+  const el = document.getElementById(id);
+  el.className = 'status';
+}
+
+// ================================================================
+// MESSENGER ENGINE
+// ================================================================
+
+let msgToken = null;
+let msgUser = null;
+let msgConversations = [];
+let activeConvId = null;
+let activeConvOtherUserId = null;
+let activeConvOtherName = null;
+let msgWs = null;
+let onlineUsers = new Set();
+let typingTimeout = null;
+let pollInterval = null;
+
+async function msgApi(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (msgToken) headers['Authorization'] = 'Bearer ' + msgToken;
+  const res = await fetch(API_BASE + path, { ...opts, headers: { ...headers, ...opts.headers } });
+  return res.json();
+}
+
+function toggleAuthForm(mode) {
+  document.getElementById('msg-login-form').style.display = mode === 'login' ? 'block' : 'none';
+  document.getElementById('msg-register-form').style.display = mode === 'register' ? 'block' : 'none';
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('reg-error').textContent = '';
+}
+
+async function msgLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { document.getElementById('login-error').textContent = 'Email and password required'; return; }
+
+  const data = await msgApi('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+  if (data.error) { document.getElementById('login-error').textContent = data.error; return; }
+
+  msgToken = data.token;
+  msgUser = data.user;
+  localStorage.setItem('whisper_token', msgToken);
+  msgShowUI();
+}
+
+async function msgRegister() {
+  const display_name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const language = document.getElementById('reg-language').value;
+  if (!display_name || !email || !password) { document.getElementById('reg-error').textContent = 'All fields required'; return; }
+  if (password.length < 6) { document.getElementById('reg-error').textContent = 'Password must be at least 6 characters'; return; }
+
+  const data = await msgApi('/auth/register', { method: 'POST', body: JSON.stringify({ email, password, display_name, language }) });
+  if (data.error) { document.getElementById('reg-error').textContent = data.error; return; }
+
+  // Auto-verify in dev (hit the verify URL)
+  if (data.verify_url) {
+    try { await fetch(API_BASE + data.verify_url); } catch(e) {}
+  }
+  document.getElementById('reg-error').textContent = '';
+  document.getElementById('login-error').textContent = 'Account created! Verify your email, then sign in.';
+  toggleAuthForm('login');
+}
+
+async function msgLoadProfile() {
+  const data = await msgApi('/users/me');
+  if (data.error) {
+    msgToken = null;
+    localStorage.removeItem('whisper_token');
+    return;
+  }
+  msgUser = data;
+  msgShowUI();
+}
+
+function msgShowUI() {
+  document.getElementById('msg-auth-view').style.display = 'none';
+  document.getElementById('msg-ui').style.display = 'block';
+  document.getElementById('msg-current-user').textContent = msgUser.display_name;
+  msgLoadConversations();
+  msgLoadUserList();
+  // Start polling for new messages
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(() => {
+    msgLoadConversations();
+    if (activeConvId) msgLoadMessages(activeConvId, true);
+  }, 5000);
+}
+
+function msgLogout() {
+  msgToken = null;
+  msgUser = null;
+  localStorage.removeItem('whisper_token');
+  document.getElementById('msg-auth-view').style.display = 'block';
+  document.getElementById('msg-ui').style.display = 'none';
+  if (msgWs) { try { msgWs.close(); } catch(e) {} msgWs = null; }
+  if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+  activeConvId = null;
+  activeConvOtherUserId = null;
+  endCall();
+}
+
+async function msgLoadConversations() {
+  const data = await msgApi('/conversations');
+  if (Array.isArray(data)) {
+    msgConversations = data;
+    renderConversations();
+  }
+}
+
+function renderConversations() {
+  const list = document.getElementById('msg-conv-list');
+  if (!msgConversations.length) {
+    list.innerHTML = '<div class="msg-empty" style="padding:20px;">No conversations yet</div>';
+    return;
+  }
+  list.innerHTML = msgConversations.map(c => {
+    const isOnline = onlineUsers.has(c.other_user_id);
+    const isActive = c.id === activeConvId;
+    const time = c.last_at ? new Date(c.last_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '';
+    return '<div class="msg-conv-item' + (isActive ? ' active' : '') + '" onclick="msgOpenConversation(\'' + c.id + '\',\'' + c.other_user_id + '\',\'' + (c.other_name||'').replace(/'/g,"\\'") + '\')">' +
+      '<div class="msg-conv-name">' + (isOnline ? '<span class="online-dot"></span>' : '') + ' ' + (c.other_name || 'Unknown') + ' <span style="margin-left:auto;font-size:9px;color:var(--text-dd);">' + time + '</span></div>' +
+      '<div class="msg-conv-preview">' + (c.last_message || 'No messages yet') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+let allUsers = [];
+
+function switchSidebarTab(tab) {
+  const convTab = document.getElementById('sidebar-tab-convs');
+  const userTab = document.getElementById('sidebar-tab-users');
+  const convList = document.getElementById('msg-conv-list');
+  const userList = document.getElementById('msg-user-list');
+  if (tab === 'users') {
+    convTab.style.borderBottomColor = 'transparent';
+    convTab.style.color = 'var(--text-d)';
+    userTab.style.borderBottomColor = 'var(--gold)';
+    userTab.style.color = 'var(--gold)';
+    convList.style.display = 'none';
+    userList.style.display = 'block';
+    msgLoadUserList();
+  } else {
+    userTab.style.borderBottomColor = 'transparent';
+    userTab.style.color = 'var(--text-d)';
+    convTab.style.borderBottomColor = 'var(--gold)';
+    convTab.style.color = 'var(--gold)';
+    userList.style.display = 'none';
+    convList.style.display = 'block';
+  }
+}
+
+async function msgLoadUserList() {
+  const data = await msgApi('/users/list');
+  if (Array.isArray(data)) {
+    allUsers = data;
+    renderUserList();
+  }
+}
+
+function renderUserList() {
+  const list = document.getElementById('msg-user-list');
+  if (!allUsers.length) {
+    list.innerHTML = '<div class="msg-empty" style="padding:20px;">No other users registered yet</div>';
+    return;
+  }
+  const langLabels = { en: 'EN', ur: 'UR', ne: 'NE', es: 'ES' };
+  list.innerHTML = allUsers.map(u => {
+    const isOnline = onlineUsers.has(u.id);
+    const lang = langLabels[u.language] || 'EN';
+    const lastSeen = u.last_seen ? timeAgo(u.last_seen) : 'never';
+    return '<div class="msg-conv-item" onclick="msgStartConv(\'' + u.id + '\',\'' + (u.display_name||'').replace(/'/g,"\\'") + '\')" style="cursor:pointer;">' +
+      '<div class="msg-conv-name">' +
+        (isOnline ? '<span class="online-dot"></span> ' : '') +
+        escapeHtml(u.display_name) +
+        ' <span style="margin-left:auto;font-size:9px;color:var(--teal);background:var(--teal-d);padding:1px 6px;border-radius:2px;">' + lang + '</span>' +
+      '</div>' +
+      '<div class="msg-conv-preview">' + escapeHtml(u.email) + (isOnline ? '' : ' &middot; ' + lastSeen) + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function timeAgo(ts) {
+  const diff = Date.now() - ts;
+  if (diff < 60000) return 'just now';
+  if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
+  if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
+  return Math.floor(diff/86400000) + 'd ago';
+}
+
+let searchDebounce = null;
+async function msgSearchUsers() {
+  const q = document.getElementById('msg-user-search').value.trim();
+  const results = document.getElementById('msg-search-results');
+  if (q.length < 2) { results.style.display = 'none'; return; }
+
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(async () => {
+    const data = await msgApi('/users/search?q=' + encodeURIComponent(q));
+    if (!Array.isArray(data) || !data.length) { results.style.display = 'none'; return; }
+    results.style.display = 'block';
+    results.innerHTML = data.map(u =>
+      '<div class="msg-search-item" onclick="msgStartConv(\'' + u.id + '\',\'' + (u.display_name||'').replace(/'/g,"\\'") + '\')">' +
+        '<div>' + u.display_name + '</div>' +
+        '<div class="email">' + u.email + '</div>' +
+      '</div>'
+    ).join('');
+  }, 300);
+}
+
+async function msgStartConv(userId, name) {
+  document.getElementById('msg-search-results').style.display = 'none';
+  document.getElementById('msg-user-search').value = '';
+  const data = await msgApi('/conversations', { method: 'POST', body: JSON.stringify({ other_user_id: userId }) });
+  if (data.conversation_id) {
+    await msgLoadConversations();
+    msgOpenConversation(data.conversation_id, userId, name);
+  }
+}
+
+async function msgOpenConversation(convId, otherUserId, otherName) {
+  activeConvId = convId;
+  activeConvOtherUserId = otherUserId;
+  activeConvOtherName = otherName;
+  document.getElementById('msg-chat-name').textContent = otherName || 'Chat';
+  document.getElementById('msg-call-btn').style.display = 'inline-block';
+  document.getElementById('msg-input-bar').style.display = 'flex';
+
+  // Highlight active conversation
+  document.querySelectorAll('.msg-conv-item').forEach(el => el.classList.remove('active'));
+  const items = document.querySelectorAll('.msg-conv-item');
+  items.forEach(el => { if (el.onclick.toString().includes(convId)) el.classList.add('active'); });
+
+  await msgLoadMessages(convId);
+  msgConnectWS(convId);
+}
+
+async function msgLoadMessages(convId, silent) {
+  const data = await msgApi('/conversations/' + convId + '/messages');
+  if (!Array.isArray(data)) return;
+  const container = document.getElementById('msg-messages');
+  if (!data.length) {
+    container.innerHTML = '<div class="msg-empty">Send the first message</div>';
+    return;
+  }
+
+  const lang = msgUser?.language || 'en';
+  container.innerHTML = data.map(m => {
+    const isSent = m.sender_id === msgUser.id;
+    const contentKey = 'content_' + lang;
+    const displayText = isSent ? m.content_en : (m[contentKey] || m.content_en);
+    const showTranslation = !isSent && lang !== 'en' && m.content_en !== displayText;
+    const time = new Date(m.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    let mediaHtml = '';
+    if (m.media_url) {
+      if (m.media_type && m.media_type.startsWith('image/')) {
+        mediaHtml = '<img class="msg-media" src="' + API_BASE + m.media_url + '" alt="image" onclick="window.open(this.src)">';
+      } else if (m.media_type && m.media_type.startsWith('video/')) {
+        mediaHtml = '<video class="msg-media" src="' + API_BASE + m.media_url + '" controls></video>';
+      } else if (m.media_type && m.media_type.startsWith('audio/')) {
+        mediaHtml = '<audio src="' + API_BASE + m.media_url + '" controls style="max-width:100%;"></audio>';
+      } else if (m.media_url) {
+        mediaHtml = '<a href="' + API_BASE + m.media_url + '" target="_blank" style="color:var(--teal);">Attachment</a>';
+      }
+    }
+    return '<div class="msg-bubble ' + (isSent ? 'sent' : 'received') + '">' +
+      mediaHtml +
+      '<div>' + escapeHtml(displayText) + '</div>' +
+      (showTranslation ? '<div class="msg-translated">EN: ' + escapeHtml(m.content_en) + '</div>' : '') +
+      '<div class="msg-time">' + time + '</div>' +
+    '</div>';
+  }).join('');
+
+  if (!silent) container.scrollTop = container.scrollHeight;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function msgConnectWS(convId) {
+  if (msgWs) { try { msgWs.close(); } catch(e) {} }
+  try {
+    msgWs = new WebSocket(WS_BASE + '/ws/' + convId + '?userId=' + msgUser.id);
+    msgWs.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        switch (data.type) {
+          case 'new_message':
+            if (activeConvId === convId) msgLoadMessages(convId);
+            msgLoadConversations();
+            break;
+          case 'user_online':
+            onlineUsers.add(data.userId);
+            renderConversations();
+            break;
+          case 'user_offline':
+            onlineUsers.delete(data.userId);
+            renderConversations();
+            break;
+          case 'online_users':
+            if (data.users) data.users.forEach(u => onlineUsers.add(u));
+            renderConversations();
+            break;
+          case 'typing':
+            document.getElementById('msg-typing').textContent = (data.displayName || 'User') + ' is typing...';
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => document.getElementById('msg-typing').textContent = '', 3000);
+            break;
+          case 'stop_typing':
+            document.getElementById('msg-typing').textContent = '';
+            break;
+          case 'webrtc_signal':
+            handleWebRTCSignal(data);
+            break;
+          case 'call_end':
+            endCall();
+            break;
+          case 'call_reject':
+            endCall();
+            break;
+        }
+      } catch(err) {}
+    };
+    msgWs.onclose = () => { msgWs = null; };
+  } catch(e) {}
+}
+
+async function msgSend() {
+  const input = document.getElementById('msg-text-input');
+  const content = input.value.trim();
+  if (!content || !activeConvId) return;
+  input.value = '';
+
+  await msgApi('/messages', {
+    method: 'POST',
+    body: JSON.stringify({ conversation_id: activeConvId, content })
+  });
+  await msgLoadMessages(activeConvId);
+  const container = document.getElementById('msg-messages');
+  container.scrollTop = container.scrollHeight;
+}
+
+async function msgAttachFile(fileInput) {
+  const file = fileInput.files[0];
+  if (!file) return;
+  fileInput.value = '';
+
+  // Request upload slot
+  const slot = await msgApi('/media/upload', {
+    method: 'POST',
+    body: JSON.stringify({ filename: file.name, content_type: file.type })
+  });
+  if (slot.error) { alert(slot.error); return; }
+
+  // Upload file
+  await fetch(API_BASE + slot.upload_endpoint, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + msgToken, 'Content-Type': file.type },
+    body: file
+  });
+
+  // Send message with media
+  const media_url = '/media/get/' + slot.upload_key;
+  await msgApi('/messages', {
+    method: 'POST',
+    body: JSON.stringify({
+      conversation_id: activeConvId,
+      content: file.name,
+      media_url,
+      media_type: file.type
+    })
+  });
+  await msgLoadMessages(activeConvId);
+}
+
+// Typing indicator
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('msg-text-input');
+  let lastTypingSent = 0;
+  input.addEventListener('input', () => {
+    if (!msgWs || msgWs.readyState !== 1) return;
+    const now = Date.now();
+    if (now - lastTypingSent > 2000) {
+      msgWs.send(JSON.stringify({ type: 'typing', displayName: msgUser?.display_name }));
+      lastTypingSent = now;
+    }
+  });
+});
+
+// ================================================================
+// WEBRTC VIDEO CALL
+// ================================================================
+
+let peerConnection = null;
+let localStream = null;
+let remoteStream = null;
+let incomingCallData = null;
+let audioMuted = false;
+let videoMuted = false;
+
+const ICE_SERVERS = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+];
+
+async function startVideoCall() {
+  if (!activeConvOtherUserId || !msgWs) return;
+  showTab('call');
+
+  document.getElementById('call-inactive').style.display = 'none';
+  document.getElementById('call-active').style.display = 'block';
+  document.getElementById('call-status').textContent = 'CALLING...';
+
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  document.getElementById('local-video').srcObject = localStream;
+
+  peerConnection = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
+
+  peerConnection.onicecandidate = (e) => {
+    if (e.candidate && msgWs && msgWs.readyState === 1) {
+      msgWs.send(JSON.stringify({
+        type: 'webrtc_signal',
+        target_user_id: activeConvOtherUserId,
+        signal: { candidate: e.candidate }
+      }));
+    }
+  };
+
+  peerConnection.ontrack = (e) => {
+    document.getElementById('remote-video').srcObject = e.streams[0];
+    document.getElementById('call-status').textContent = 'CONNECTED';
+  };
+
+  peerConnection.onconnectionstatechange = () => {
+    const state = peerConnection.connectionState;
+    if (state === 'connected') document.getElementById('call-status').textContent = 'CONNECTED';
+    else if (state === 'disconnected' || state === 'failed') endCall();
+  };
+
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(offer);
+
+  msgWs.send(JSON.stringify({
+    type: 'webrtc_signal',
+    target_user_id: activeConvOtherUserId,
+    signal: { offer: offer }
+  }));
+}
+
+async function handleWebRTCSignal(data) {
+  const signal = data.signal;
+  const from = data.from;
+
+  if (signal.offer) {
+    // Incoming call
+    incomingCallData = { signal, from };
+    document.getElementById('incoming-caller-name').textContent = activeConvOtherName || from;
+    document.getElementById('incoming-call-overlay').classList.add('show');
+    return;
+  }
+
+  if (signal.answer && peerConnection) {
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(signal.answer));
+    return;
+  }
+
+  if (signal.candidate && peerConnection) {
+    try { await peerConnection.addIceCandidate(new RTCIceCandidate(signal.candidate)); } catch(e) {}
+    return;
+  }
+}
+
+async function acceptIncomingCall() {
+  document.getElementById('incoming-call-overlay').classList.remove('show');
+  if (!incomingCallData) return;
+
+  showTab('call');
+  document.getElementById('call-inactive').style.display = 'none';
+  document.getElementById('call-active').style.display = 'block';
+  document.getElementById('call-status').textContent = 'CONNECTING...';
+
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  document.getElementById('local-video').srcObject = localStream;
+
+  peerConnection = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+  localStream.getTracks().forEach(t => peerConnection.addTrack(t, localStream));
+
+  peerConnection.onicecandidate = (e) => {
+    if (e.candidate && msgWs && msgWs.readyState === 1) {
+      msgWs.send(JSON.stringify({
+        type: 'webrtc_signal',
+        target_user_id: incomingCallData.from,
+        signal: { candidate: e.candidate }
+      }));
+    }
+  };
+
+  peerConnection.ontrack = (e) => {
+    document.getElementById('remote-video').srcObject = e.streams[0];
+    document.getElementById('call-status').textContent = 'CONNECTED';
+  };
+
+  peerConnection.onconnectionstatechange = () => {
+    const state = peerConnection.connectionState;
+    if (state === 'connected') document.getElementById('call-status').textContent = 'CONNECTED';
+    else if (state === 'disconnected' || state === 'failed') endCall();
+  };
+
+  await peerConnection.setRemoteDescription(new RTCSessionDescription(incomingCallData.signal.offer));
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+
+  msgWs.send(JSON.stringify({
+    type: 'webrtc_signal',
+    target_user_id: incomingCallData.from,
+    signal: { answer: answer }
+  }));
+
+  incomingCallData = null;
+}
+
+function rejectIncomingCall() {
+  document.getElementById('incoming-call-overlay').classList.remove('show');
+  if (incomingCallData && msgWs && msgWs.readyState === 1) {
+    msgWs.send(JSON.stringify({ type: 'call_reject', target_user_id: incomingCallData.from }));
+  }
+  incomingCallData = null;
+}
+
+function endCall() {
+  if (peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+  if (localStream) {
+    localStream.getTracks().forEach(t => t.stop());
+    localStream = null;
+  }
+  document.getElementById('local-video').srcObject = null;
+  document.getElementById('remote-video').srcObject = null;
+  document.getElementById('call-active').style.display = 'none';
+  document.getElementById('call-inactive').style.display = 'block';
+  document.getElementById('incoming-call-overlay').classList.remove('show');
+  audioMuted = false;
+  videoMuted = false;
+
+  // Notify other party
+  if (activeConvOtherUserId && msgWs && msgWs.readyState === 1) {
+    msgWs.send(JSON.stringify({ type: 'call_end', target_user_id: activeConvOtherUserId }));
+  }
+}
+
+function toggleMuteAudio() {
+  if (!localStream) return;
+  audioMuted = !audioMuted;
+  localStream.getAudioTracks().forEach(t => t.enabled = !audioMuted);
+  const btn = document.getElementById('btn-mute-audio');
+  btn.classList.toggle('muted', audioMuted);
+  btn.innerHTML = audioMuted ? '&#x1F507;' : '&#x1F50A;';
+}
+
+function toggleMuteVideo() {
+  if (!localStream) return;
+  videoMuted = !videoMuted;
+  localStream.getVideoTracks().forEach(t => t.enabled = !videoMuted);
+  const btn = document.getElementById('btn-mute-video');
+  btn.classList.toggle('off', videoMuted);
+  btn.innerHTML = videoMuted ? '&#x1F6AB;' : '&#x1F4F7;';
+}
+
+// ================================================================
+// AUTO-LOGIN CHECK ON LOAD
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Check URL for token (from email verification redirect)
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get('token');
+  if (urlToken) {
+    localStorage.setItem('whisper_token', urlToken);
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+});
+</script>
+</body>
+</html>
