@@ -1236,6 +1236,477 @@
     .msg-body { flex-direction: column; }
     .msg-conv-list-mobile { display: block; }
   }
+
+  /* ═══════════════════════════════════ */
+  /* EMOJI PICKER                        */
+  /* ═══════════════════════════════════ */
+  .emoji-picker-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 20px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .emoji-picker-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .emoji-picker-popup {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    left: 12px;
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 10px;
+    width: 320px;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 200;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  .emoji-picker-popup.show { display: block; }
+
+  .emoji-picker-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .emoji-cat-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .emoji-cat-btn:hover, .emoji-cat-btn.active { background: rgba(201,168,76,0.15); }
+
+  .emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 2px;
+  }
+  .emoji-item {
+    font-size: 22px;
+    text-align: center;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s;
+    line-height: 1.2;
+  }
+  .emoji-item:hover { background: rgba(201,168,76,0.15); }
+
+  .emoji-search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 8px;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* SELFIE CAMERA                       */
+  /* ═══════════════════════════════════ */
+  .camera-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 18px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .camera-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  .camera-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 500;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .camera-modal.show { display: flex; }
+  .camera-modal video {
+    max-width: 90vw;
+    max-height: 50vh;
+    border: 2px solid var(--gold);
+    border-radius: 8px;
+  }
+  .camera-modal canvas { display: none; }
+  .camera-modal .preview-img {
+    max-width: 90vw;
+    max-height: 50vh;
+    border: 2px solid var(--teal);
+    border-radius: 8px;
+    display: none;
+  }
+  .camera-controls {
+    display: flex;
+    gap: 16px;
+  }
+  .camera-controls button {
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cam-capture { background: var(--gold); color: #0a0a0c; }
+  .cam-capture:hover { box-shadow: 0 0 20px rgba(201,168,76,0.4); }
+  .cam-send { background: var(--teal); color: #0a0a0c; display: none; }
+  .cam-retake { background: rgba(255,255,255,0.15); color: #fff; display: none; }
+  .cam-close { background: var(--red); color: #fff; }
+
+  /* ═══════════════════════════════════ */
+  /* MESSAGE REACTIONS                   */
+  /* ═══════════════════════════════════ */
+  .msg-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .msg-reaction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .msg-reaction-badge:hover {
+    background: rgba(201,168,76,0.2);
+    border-color: var(--gold);
+  }
+  .msg-reaction-badge .rcount {
+    font-size: 10px;
+    color: var(--text-d);
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .msg-reaction-badge.mine {
+    border-color: var(--teal);
+    background: rgba(77,182,172,0.1);
+  }
+
+  .msg-react-btn {
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .msg-bubble:hover .msg-react-btn { opacity: 1; }
+  .msg-react-btn:hover { border-color: var(--gold); }
+
+  .react-quick-picker {
+    display: none;
+    position: absolute;
+    top: -36px;
+    right: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 4px 8px;
+    z-index: 20;
+    gap: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .react-quick-picker.show { display: flex; }
+  .react-quick-emoji {
+    font-size: 18px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .react-quick-emoji:hover { background: rgba(201,168,76,0.2); }
+
+  /* ═══════════════════════════════════ */
+  /* PINNED MESSAGE                      */
+  /* ═══════════════════════════════════ */
+  .pinned-banner {
+    display: none;
+    padding: 6px 14px;
+    background: rgba(201,168,76,0.06);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    font-size: 12px;
+    color: var(--text-d);
+    cursor: pointer;
+    transition: background 0.2s;
+    align-items: center;
+    gap: 8px;
+  }
+  .pinned-banner.show { display: flex; }
+  .pinned-banner:hover { background: rgba(201,168,76,0.12); }
+  .pinned-banner .pin-icon { color: var(--gold); }
+  .pinned-banner .pin-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pinned-banner .pin-close {
+    background: none;
+    border: none;
+    color: var(--text-dd);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px;
+  }
+  .pinned-banner .pin-close:hover { color: var(--red); }
+
+  .msg-pin-option {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 11px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    color: var(--text-d);
+  }
+  .msg-bubble:hover .msg-pin-option { opacity: 1; }
+  .msg-pin-option:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ═══════════════════════════════════ */
+  /* NOTES PANEL                         */
+  /* ═══════════════════════════════════ */
+  .notes-container {
+    display: flex;
+    height: 480px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .notes-sidebar {
+    width: 220px;
+    border-right: 1px solid var(--border);
+    background: var(--bg2);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .notes-sidebar-header {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .notes-sidebar-header button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .notes-sidebar-header button:hover { border-color: var(--gold); color: var(--gold); }
+
+  .notes-folder-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .notes-folder-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text);
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+  .notes-folder-item:hover { background: rgba(201,168,76,0.05); }
+  .notes-folder-item.active { background: rgba(201,168,76,0.08); border-left: 2px solid var(--gold); }
+  .notes-folder-item .folder-icon { font-size: 14px; }
+  .notes-folder-item .folder-count {
+    margin-left: auto;
+    font-size: 9px;
+    color: var(--text-dd);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .notes-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  .notes-list-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .notes-list-header span {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .notes-list-header button {
+    background: linear-gradient(135deg, var(--gold-d), var(--gold));
+    border: none;
+    color: #0a0a0c;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+  }
+  .note-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .note-card:hover { border-color: var(--gold); }
+  .note-card.active { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+  .note-card-title {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .note-card-meta {
+    font-size: 10px;
+    color: var(--text-dd);
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .note-shared-badge {
+    font-size: 9px;
+    color: var(--teal);
+    background: var(--teal-d);
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: auto;
+  }
+
+  .note-editor {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    border-top: 1px solid var(--border);
+  }
+  .note-editor.show { display: flex; }
+  .note-editor-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .note-editor-header input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--gold-l);
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    outline: none;
+  }
+  .note-editor-header button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-d);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .note-editor-header button:hover { border-color: var(--gold); color: var(--gold); }
+
+  .note-editor textarea {
+    flex: 1;
+    background: var(--bg);
+    border: none;
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    padding: 12px;
+    resize: none;
+    outline: none;
+    min-height: 0;
+  }
+
+  .note-editor-footer {
+    padding: 6px 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dd);
+  }
+
+  @media (max-width: 600px) {
+    .notes-sidebar { width: 160px; }
+    .emoji-picker-popup { width: 260px; }
+    .emoji-grid { grid-template-columns: repeat(6, 1fr); }
+  }
 </style>
 </head>
 <body>
@@ -1281,6 +1752,7 @@
       <button class="tab" onclick="showTab('howto', this)">How It Works</button>
       <button class="tab" onclick="showTab('messenger', this)">Messenger</button>
       <button class="tab" onclick="showTab('call', this)">Video Call</button>
+      <button class="tab" onclick="showTab('notes', this)">Notes</button>
     </div>
 
     <!-- ENCODE PANEL -->
@@ -1448,11 +1920,19 @@
               <span id="msg-chat-name">Select a conversation</span>
               <button class="msg-chat-call-btn" id="msg-call-btn" onclick="startVideoCall()" title="Video Call" style="display:none;">&#x1F4F9;</button>
             </div>
+            <div class="pinned-banner" id="pinned-banner" onclick="scrollToPinned()">
+              <span class="pin-icon">&#x1F4CC;</span>
+              <span class="pin-text" id="pinned-text"></span>
+              <button class="pin-close" onclick="event.stopPropagation(); unpinMessage()" title="Unpin">&#x2715;</button>
+            </div>
             <div class="msg-messages" id="msg-messages">
               <div class="msg-empty">Select a conversation to start messaging</div>
             </div>
             <div class="msg-typing" id="msg-typing"></div>
-            <div class="msg-input-bar" style="display:none;" id="msg-input-bar">
+            <div class="msg-input-bar" style="display:none;position:relative;" id="msg-input-bar">
+              <button class="emoji-picker-btn" onclick="toggleEmojiPicker()" title="Emoji">&#x1F60A;</button>
+              <div class="emoji-picker-popup" id="emoji-picker-popup"></div>
+              <button class="camera-btn" onclick="openSelfieCamera()" title="Selfie Camera">&#x1F4F7;</button>
               <button class="msg-attach-btn" onclick="document.getElementById('msg-file-input').click()" title="Attach media">&#x1F4CE;</button>
               <input type="file" id="msg-file-input" style="display:none;" accept="image/*,video/*,audio/*,.pdf" onchange="msgAttachFile(this)">
               <input type="text" id="msg-text-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') msgSend()">
@@ -1482,9 +1962,66 @@
       </div>
     </div>
 
+    <!-- NOTES PANEL -->
+    <div class="panel" id="panel-notes">
+      <div id="notes-auth-gate" style="text-align:center;padding:40px;color:var(--text-d);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;">
+        Sign in to Messenger first to use Notes.
+      </div>
+      <div class="notes-container" id="notes-ui" style="display:none;">
+        <div class="notes-sidebar">
+          <div class="notes-sidebar-header">
+            <span>FOLDERS</span>
+            <button onclick="notesCreateFolder()" title="New Folder">+&#x1F4C1;</button>
+          </div>
+          <div class="notes-folder-list" id="notes-folder-list">
+            <div class="notes-folder-item active" onclick="notesSelectFolder(null)" data-folder="root">
+              <span class="folder-icon">&#x1F4D1;</span> All Notes
+            </div>
+          </div>
+        </div>
+        <div class="notes-main">
+          <div class="notes-list-header">
+            <span id="notes-folder-name">All Notes</span>
+            <button onclick="notesCreateNote()">+ NEW NOTE</button>
+          </div>
+          <div class="notes-list" id="notes-list">
+            <div class="msg-empty" style="padding:40px;">No notes yet. Create one!</div>
+          </div>
+          <div class="note-editor" id="note-editor">
+            <div class="note-editor-header">
+              <input type="text" id="note-title-input" placeholder="Note title...">
+              <button onclick="notesSave()" title="Save">SAVE</button>
+              <button onclick="notesShare()" title="Share with user">SHARE</button>
+              <button onclick="notesDelete()" style="color:var(--red);" title="Delete">DEL</button>
+            </div>
+            <textarea id="note-content-input" placeholder="Write your note here..."></textarea>
+            <div class="note-editor-footer">
+              <span id="note-meta-info"></span>
+              <select id="note-folder-select" style="background:var(--bg3);border:1px solid var(--border);color:var(--text-d);font-size:10px;padding:2px 6px;border-radius:3px;margin-left:auto;" onchange="notesMoveToFolder()">
+                <option value="">No folder</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div><!-- end #app -->
 
 </main>
+
+<!-- SELFIE CAMERA MODAL -->
+<div class="camera-modal" id="camera-modal">
+  <video id="selfie-video" autoplay playsinline></video>
+  <canvas id="selfie-canvas"></canvas>
+  <img class="preview-img" id="selfie-preview">
+  <div class="camera-controls">
+    <button class="cam-capture" id="cam-capture-btn" onclick="captureSelfiePic()">&#x1F4F8; CAPTURE</button>
+    <button class="cam-send" id="cam-send-btn" onclick="sendSelfiePic()">&#x27A4; SEND</button>
+    <button class="cam-retake" id="cam-retake-btn" onclick="retakeSelfiePic()">&#x21BA; RETAKE</button>
+    <button class="cam-close" onclick="closeSelfieCamera()">&#x2715; CLOSE</button>
+  </div>
+</div>
 
 <footer>
   WHISPER &middot; <a href="https://echo-op.com">ECHO OMEGA PRIME</a> &middot; COMMANDER BOBBY DON McWILLIAMS II &middot; 2026
@@ -2443,6 +2980,629 @@ function toggleMuteVideo() {
   btn.classList.toggle('off', videoMuted);
   btn.innerHTML = videoMuted ? '&#x1F6AB;' : '&#x1F4F7;';
 }
+
+// ================================================================
+// EMOJI PICKER
+// ================================================================
+const EMOJI_DATA = {
+  'Smileys': ['😀','😃','😄','😁','😅','😂','🤣','😊','😇','🙂','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😜','🤪','😝','🤗','🤭','🤫','🤔','🤐','🤨','😐','😑','😶','😏','😒','🙄','😬','😮‍💨','🤥','😌','😔','😪','🤤','😴','😷','🤒','🤕','🤢','🤮','🥵','🥶','🥴','😵','🤯','🤠','🥳','🥸','😎','🤓','🧐'],
+  'Hearts': ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟'],
+  'Hands': ['👍','👎','👊','✊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✌️','🤞','🤟','🤘','👌','🤌','🤏','👈','👉','👆','👇','☝️','✋','🤚','🖐','🖖','👋','🤙','💪'],
+  'Animals': ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦅','🦆','🦉','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜','🐙','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🐘','🦏','🦛','🐪','🐫','🦒','🦘','🐃'],
+  'Food': ['🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🥑','🍆','🥦','🥬','🌶️','🫑','🌽','🥕','🧄','🧅','🥔','🍠','🍕','🍔','🍟','🌭','🍿','🧂','🥚','🍳','🧇','🥞','🧈','🍞','🥐','🥨','🧀','🥩','🍗','🍖','🌮','🌯','🥗','🍝','🍜','🍲','🍛','🍣','🍱','🥟','🍤','🍙','🍚','🍘','🍥','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍩','🍪','🥛','🍵','☕','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧃','🧊'],
+  'Objects': ['💯','🔥','⭐','🌟','✨','💫','🎉','🎊','🏆','🥇','🥈','🥉','⚽','🏀','🏈','⚾','🎾','🏐','🎯','🎮','🎲','🎪','🎨','🎭','🎬','🎤','🎧','🎵','🎶','💰','💵','💎','⏰','📱','💻','📷','📸','🔑','🔒','🔓','📌','📎','✏️','📝','📅','📊','📈','📉','🗑️','💡','🔮','🧲','⚡','🌈','☀️','🌙','⛅','🌊','🌸','🌺','🌻','🌹','💐','🪴','🎄','🎃','👻','💀','👽','🤖','🎅','👼']
+};
+
+let emojiPickerBuilt = false;
+let currentEmojiCategory = 'Smileys';
+
+function buildEmojiPicker() {
+  if (emojiPickerBuilt) return;
+  const popup = document.getElementById('emoji-picker-popup');
+  let html = '<input class="emoji-search" id="emoji-search-input" placeholder="Search emoji..." oninput="filterEmojis(this.value)">';
+  html += '<div class="emoji-picker-tabs">';
+  const catIcons = {'Smileys':'😀','Hearts':'❤️','Hands':'👍','Animals':'🐶','Food':'🍕','Objects':'🔥'};
+  for (const cat of Object.keys(EMOJI_DATA)) {
+    html += '<button class="emoji-cat-btn' + (cat === 'Smileys' ? ' active' : '') + '" onclick="switchEmojiCat(\'' + cat + '\', this)">' + catIcons[cat] + '</button>';
+  }
+  html += '</div>';
+  html += '<div class="emoji-grid" id="emoji-grid"></div>';
+  popup.innerHTML = html;
+  renderEmojiGrid('Smileys');
+  emojiPickerBuilt = true;
+}
+
+function renderEmojiGrid(cat) {
+  const grid = document.getElementById('emoji-grid');
+  grid.innerHTML = EMOJI_DATA[cat].map(e => '<span class="emoji-item" onclick="insertEmoji(\'' + e + '\')">' + e + '</span>').join('');
+}
+
+function switchEmojiCat(cat, btn) {
+  currentEmojiCategory = cat;
+  document.querySelectorAll('.emoji-cat-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderEmojiGrid(cat);
+}
+
+function filterEmojis(q) {
+  if (!q) { renderEmojiGrid(currentEmojiCategory); return; }
+  const all = [];
+  for (const emojis of Object.values(EMOJI_DATA)) all.push(...emojis);
+  const grid = document.getElementById('emoji-grid');
+  grid.innerHTML = all.slice(0, 80).map(e => '<span class="emoji-item" onclick="insertEmoji(\'' + e + '\')">' + e + '</span>').join('');
+}
+
+function toggleEmojiPicker() {
+  buildEmojiPicker();
+  const popup = document.getElementById('emoji-picker-popup');
+  popup.classList.toggle('show');
+}
+
+function insertEmoji(emoji) {
+  const input = document.getElementById('msg-text-input');
+  const pos = input.selectionStart || input.value.length;
+  input.value = input.value.slice(0, pos) + emoji + input.value.slice(pos);
+  input.focus();
+  document.getElementById('emoji-picker-popup').classList.remove('show');
+}
+
+// Close emoji picker on outside click
+document.addEventListener('click', (e) => {
+  const popup = document.getElementById('emoji-picker-popup');
+  if (popup && popup.classList.contains('show') && !e.target.closest('.emoji-picker-popup') && !e.target.closest('.emoji-picker-btn')) {
+    popup.classList.remove('show');
+  }
+});
+
+// ================================================================
+// SELFIE CAMERA
+// ================================================================
+let selfieStream = null;
+let selfieBlob = null;
+
+function openSelfieCamera() {
+  const modal = document.getElementById('camera-modal');
+  modal.classList.add('show');
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+    .then(stream => {
+      selfieStream = stream;
+      const video = document.getElementById('selfie-video');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      document.getElementById('selfie-preview').style.display = 'none';
+      document.getElementById('cam-capture-btn').style.display = '';
+      document.getElementById('cam-send-btn').style.display = 'none';
+      document.getElementById('cam-retake-btn').style.display = 'none';
+    })
+    .catch(err => {
+      alert('Camera access denied: ' + err.message);
+      closeSelfieCamera();
+    });
+}
+
+function captureSelfiePic() {
+  const video = document.getElementById('selfie-video');
+  const canvas = document.getElementById('selfie-canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  canvas.toBlob(blob => {
+    selfieBlob = blob;
+    const preview = document.getElementById('selfie-preview');
+    preview.src = URL.createObjectURL(blob);
+    preview.style.display = 'block';
+    video.style.display = 'none';
+    document.getElementById('cam-capture-btn').style.display = 'none';
+    document.getElementById('cam-send-btn').style.display = '';
+    document.getElementById('cam-retake-btn').style.display = '';
+  }, 'image/jpeg', 0.85);
+}
+
+function retakeSelfiePic() {
+  selfieBlob = null;
+  document.getElementById('selfie-preview').style.display = 'none';
+  document.getElementById('selfie-video').style.display = 'block';
+  document.getElementById('cam-capture-btn').style.display = '';
+  document.getElementById('cam-send-btn').style.display = 'none';
+  document.getElementById('cam-retake-btn').style.display = 'none';
+}
+
+async function sendSelfiePic() {
+  if (!selfieBlob || !activeConvId) return;
+  const filename = 'selfie_' + Date.now() + '.jpg';
+  // Request upload slot
+  const slot = await msgApi('/media/upload', {
+    method: 'POST',
+    body: JSON.stringify({ filename, content_type: 'image/jpeg' })
+  });
+  if (slot.error) { alert(slot.error); return; }
+  // Upload
+  await fetch(API_BASE + slot.upload_endpoint, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + msgToken, 'Content-Type': 'image/jpeg' },
+    body: selfieBlob
+  });
+  // Send message
+  await msgApi('/messages', {
+    method: 'POST',
+    body: JSON.stringify({
+      conversation_id: activeConvId,
+      content: 'Selfie',
+      media_url: '/media/get/' + slot.upload_key,
+      media_type: 'image/jpeg'
+    })
+  });
+  await msgLoadMessages(activeConvId);
+  closeSelfieCamera();
+}
+
+function closeSelfieCamera() {
+  if (selfieStream) {
+    selfieStream.getTracks().forEach(t => t.stop());
+    selfieStream = null;
+  }
+  selfieBlob = null;
+  document.getElementById('camera-modal').classList.remove('show');
+  document.getElementById('selfie-video').srcObject = null;
+}
+
+// ================================================================
+// MESSAGE REACTIONS
+// ================================================================
+const QUICK_REACTIONS = ['❤️','😂','👍','😮','😢','🔥'];
+let activeReactMsgId = null;
+
+function showReactPicker(msgId, event) {
+  event.stopPropagation();
+  // Close any existing picker
+  document.querySelectorAll('.react-quick-picker.show').forEach(p => p.classList.remove('show'));
+  activeReactMsgId = msgId;
+  const picker = document.getElementById('react-picker-' + msgId);
+  if (picker) picker.classList.toggle('show');
+}
+
+async function toggleReaction(msgId, emoji) {
+  document.querySelectorAll('.react-quick-picker.show').forEach(p => p.classList.remove('show'));
+  await msgApi('/messages/' + msgId + '/react', {
+    method: 'POST',
+    body: JSON.stringify({ emoji })
+  });
+  await msgLoadMessages(activeConvId, true);
+}
+
+// Close reaction pickers on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.react-quick-picker') && !e.target.closest('.msg-react-btn')) {
+    document.querySelectorAll('.react-quick-picker.show').forEach(p => p.classList.remove('show'));
+  }
+});
+
+// ================================================================
+// PIN MESSAGE
+// ================================================================
+let pinnedMessage = null;
+
+async function pinMessage(msgId) {
+  if (!activeConvId) return;
+  await msgApi('/conversations/' + activeConvId + '/pin', {
+    method: 'POST',
+    body: JSON.stringify({ message_id: msgId })
+  });
+  await loadPinnedMessage();
+}
+
+async function unpinMessage() {
+  if (!activeConvId) return;
+  await msgApi('/conversations/' + activeConvId + '/pin', {
+    method: 'POST',
+    body: JSON.stringify({ message_id: null })
+  });
+  pinnedMessage = null;
+  document.getElementById('pinned-banner').classList.remove('show');
+}
+
+async function loadPinnedMessage() {
+  if (!activeConvId) return;
+  const data = await msgApi('/conversations/' + activeConvId + '/pin');
+  pinnedMessage = data.pinned;
+  const banner = document.getElementById('pinned-banner');
+  if (pinnedMessage) {
+    document.getElementById('pinned-text').textContent = (pinnedMessage.sender_name || '') + ': ' + (pinnedMessage.content_en || '').slice(0, 80);
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function scrollToPinned() {
+  if (!pinnedMessage) return;
+  const el = document.getElementById('msg-' + pinnedMessage.id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.style.outline = '1px solid var(--gold)';
+    setTimeout(() => el.style.outline = '', 2000);
+  }
+}
+
+// ================================================================
+// NOTES SYSTEM
+// ================================================================
+let notesFolders = [];
+let notesList = [];
+let currentFolderId = null;
+let currentNoteId = null;
+let noteAutoSaveTimer = null;
+
+function notesInit() {
+  if (!msgToken) {
+    document.getElementById('notes-auth-gate').style.display = 'block';
+    document.getElementById('notes-ui').style.display = 'none';
+    return;
+  }
+  document.getElementById('notes-auth-gate').style.display = 'none';
+  document.getElementById('notes-ui').style.display = 'flex';
+  notesLoadFolders();
+  notesLoadNotes();
+}
+
+async function notesLoadFolders() {
+  const data = await msgApi('/notes/folders/list');
+  if (Array.isArray(data)) notesFolders = data;
+  renderNoteFolders();
+}
+
+function renderNoteFolders() {
+  const list = document.getElementById('notes-folder-list');
+  let html = '<div class="notes-folder-item' + (!currentFolderId ? ' active' : '') + '" onclick="notesSelectFolder(null)" data-folder="root"><span class="folder-icon">&#x1F4D1;</span> All Notes</div>';
+  html += '<div class="notes-folder-item' + (currentFolderId === 'root' ? ' active' : '') + '" onclick="notesSelectFolder(\'root\')" data-folder="unfiled"><span class="folder-icon">&#x1F4C4;</span> Unfiled</div>';
+  for (const f of notesFolders) {
+    html += '<div class="notes-folder-item' + (currentFolderId === f.id ? ' active' : '') + '" onclick="notesSelectFolder(\'' + f.id + '\')" data-folder="' + f.id + '">' +
+      '<span class="folder-icon">&#x1F4C1;</span> ' + escapeHtml(f.name) +
+      ' <button onclick="event.stopPropagation(); notesDeleteFolder(\'' + f.id + '\')" style="margin-left:auto;background:none;border:none;color:var(--text-dd);cursor:pointer;font-size:10px;" title="Delete folder">&#x2715;</button>' +
+    '</div>';
+  }
+  list.innerHTML = html;
+
+  // Update folder select in editor
+  const sel = document.getElementById('note-folder-select');
+  sel.innerHTML = '<option value="">No folder</option>' + notesFolders.map(f => '<option value="' + f.id + '"' + (currentNoteId && notesList.find(n => n.id === currentNoteId)?.folder_id === f.id ? ' selected' : '') + '>' + escapeHtml(f.name) + '</option>').join('');
+}
+
+function notesSelectFolder(folderId) {
+  currentFolderId = folderId;
+  const name = folderId === null ? 'All Notes' : folderId === 'root' ? 'Unfiled' : (notesFolders.find(f => f.id === folderId)?.name || 'Folder');
+  document.getElementById('notes-folder-name').textContent = name;
+  renderNoteFolders();
+  notesLoadNotes();
+}
+
+async function notesLoadNotes() {
+  let url = '/notes';
+  if (currentFolderId === 'root') url += '?folder_id=null';
+  else if (currentFolderId) url += '?folder_id=' + currentFolderId;
+  const data = await msgApi(url);
+  if (Array.isArray(data)) notesList = data;
+  renderNotesList();
+}
+
+function renderNotesList() {
+  const list = document.getElementById('notes-list');
+  if (!notesList.length) {
+    list.innerHTML = '<div class="msg-empty" style="padding:40px;">No notes yet. Create one!</div>';
+    return;
+  }
+  list.innerHTML = notesList.map(n => {
+    const isShared = n.shared_with && n.shared_with.length > 0;
+    const isOwner = n.owner_id === msgUser?.id;
+    const updated = new Date(n.updated_at).toLocaleDateString([], {month:'short',day:'numeric'});
+    return '<div class="note-card' + (n.id === currentNoteId ? ' active' : '') + '" onclick="notesOpenNote(\'' + n.id + '\')">' +
+      '<div class="note-card-title">' +
+        escapeHtml(n.title) +
+        (isShared ? '<span class="note-shared-badge">SHARED</span>' : '') +
+      '</div>' +
+      '<div class="note-card-meta">' + (isOwner ? 'You' : (n.owner_name || 'Unknown')) + ' &middot; ' + updated + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+async function notesCreateNote() {
+  const title = prompt('Note title:');
+  if (!title) return;
+  const data = await msgApi('/notes', {
+    method: 'POST',
+    body: JSON.stringify({ title, content: '', folder_id: (currentFolderId && currentFolderId !== 'root') ? currentFolderId : null })
+  });
+  if (data.id) {
+    await notesLoadNotes();
+    notesOpenNote(data.id);
+  }
+}
+
+async function notesOpenNote(noteId) {
+  currentNoteId = noteId;
+  const data = await msgApi('/notes/' + noteId);
+  if (data.error) return;
+
+  document.getElementById('note-title-input').value = data.title;
+  document.getElementById('note-content-input').value = data.content || '';
+  const isOwner = data.owner_id === msgUser?.id;
+  document.getElementById('note-meta-info').textContent =
+    (isOwner ? 'Owner: You' : 'Owner: ' + (data.owner_name || '?')) +
+    ' | Updated: ' + new Date(data.updated_at).toLocaleString();
+  document.getElementById('note-editor').classList.add('show');
+
+  // Set folder select
+  const sel = document.getElementById('note-folder-select');
+  sel.value = data.folder_id || '';
+
+  renderNotesList();
+
+  // Auto-save on typing
+  clearTimeout(noteAutoSaveTimer);
+  const contentInput = document.getElementById('note-content-input');
+  const titleInput = document.getElementById('note-title-input');
+  const autoSave = () => {
+    clearTimeout(noteAutoSaveTimer);
+    noteAutoSaveTimer = setTimeout(() => notesSave(true), 2000);
+  };
+  contentInput.oninput = autoSave;
+  titleInput.oninput = autoSave;
+}
+
+async function notesSave(silent) {
+  if (!currentNoteId) return;
+  const title = document.getElementById('note-title-input').value.trim();
+  const content = document.getElementById('note-content-input').value;
+  if (!title) return;
+
+  await msgApi('/notes/' + currentNoteId, {
+    method: 'PUT',
+    body: JSON.stringify({ title, content })
+  });
+  if (!silent) {
+    const flash = document.getElementById('copied-flash');
+    flash.textContent = 'NOTE SAVED';
+    flash.classList.add('show');
+    setTimeout(() => { flash.classList.remove('show'); flash.textContent = 'COPIED TO CLIPBOARD'; }, 1500);
+  }
+  await notesLoadNotes();
+}
+
+async function notesDelete() {
+  if (!currentNoteId) return;
+  if (!confirm('Delete this note?')) return;
+  await msgApi('/notes/' + currentNoteId, { method: 'DELETE' });
+  currentNoteId = null;
+  document.getElementById('note-editor').classList.remove('show');
+  await notesLoadNotes();
+}
+
+async function notesShare() {
+  if (!currentNoteId) return;
+  const userName = prompt('Enter user email or name to share with:');
+  if (!userName) return;
+  // Search for user
+  const users = await msgApi('/users/search?q=' + encodeURIComponent(userName));
+  if (!Array.isArray(users) || !users.length) { alert('User not found'); return; }
+  const userId = users[0].id;
+  await msgApi('/notes/' + currentNoteId + '/share', {
+    method: 'POST',
+    body: JSON.stringify({ user_id: userId })
+  });
+  const flash = document.getElementById('copied-flash');
+  flash.textContent = 'SHARED WITH ' + users[0].display_name.toUpperCase();
+  flash.classList.add('show');
+  setTimeout(() => { flash.classList.remove('show'); flash.textContent = 'COPIED TO CLIPBOARD'; }, 2000);
+  await notesLoadNotes();
+}
+
+async function notesMoveToFolder() {
+  if (!currentNoteId) return;
+  const folderId = document.getElementById('note-folder-select').value || null;
+  await msgApi('/notes/' + currentNoteId, {
+    method: 'PUT',
+    body: JSON.stringify({ folder_id: folderId })
+  });
+  await notesLoadNotes();
+}
+
+async function notesCreateFolder() {
+  const name = prompt('Folder name:');
+  if (!name) return;
+  await msgApi('/notes/folders', {
+    method: 'POST',
+    body: JSON.stringify({ name })
+  });
+  await notesLoadFolders();
+}
+
+async function notesDeleteFolder(folderId) {
+  if (!confirm('Delete this folder? Notes inside will be moved to Unfiled.')) return;
+  await msgApi('/notes/folders/' + folderId, { method: 'DELETE' });
+  if (currentFolderId === folderId) currentFolderId = null;
+  await notesLoadFolders();
+  await notesLoadNotes();
+}
+
+// ================================================================
+// UPDATED MESSAGE RENDERING (with reactions + pin)
+// ================================================================
+const _originalMsgLoadMessages = msgLoadMessages;
+
+// Override msgLoadMessages to include reactions and pin badges
+msgLoadMessages = async function(convId, silent) {
+  const data = await msgApi('/conversations/' + convId + '/messages');
+  if (!Array.isArray(data)) return;
+  const container = document.getElementById('msg-messages');
+  if (!data.length) {
+    container.innerHTML = '<div class="msg-empty">Send the first message</div>';
+    return;
+  }
+
+  // Load reactions for all messages in batch
+  const reactionMap = {};
+  await Promise.all(data.map(async m => {
+    try {
+      const r = await msgApi('/messages/' + m.id + '/reactions');
+      if (Array.isArray(r)) reactionMap[m.id] = r;
+    } catch(e) {}
+  }));
+
+  const lang = msgUser?.language || 'en';
+  container.innerHTML = data.map(m => {
+    const isSent = m.sender_id === msgUser.id;
+    const contentKey = 'content_' + lang;
+    const displayText = isSent ? m.content_en : (m[contentKey] || m.content_en);
+    const showTranslation = !isSent && lang !== 'en' && m.content_en !== displayText;
+    const time = new Date(m.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+    let mediaHtml = '';
+    if (m.media_url) {
+      if (m.media_type && m.media_type.startsWith('image/')) {
+        mediaHtml = '<img class="msg-media" src="' + API_BASE + m.media_url + '" alt="image" onclick="window.open(this.src)">';
+      } else if (m.media_type && m.media_type.startsWith('video/')) {
+        mediaHtml = '<video class="msg-media" src="' + API_BASE + m.media_url + '" controls></video>';
+      } else if (m.media_type && m.media_type.startsWith('audio/')) {
+        mediaHtml = '<audio src="' + API_BASE + m.media_url + '" controls style="max-width:100%;"></audio>';
+      } else {
+        mediaHtml = '<a href="' + API_BASE + m.media_url + '" target="_blank" style="color:var(--teal);">Attachment</a>';
+      }
+    }
+
+    // Reactions
+    const reactions = reactionMap[m.id] || [];
+    const grouped = {};
+    reactions.forEach(r => {
+      if (!grouped[r.emoji]) grouped[r.emoji] = { emoji: r.emoji, count: 0, users: [], mine: false };
+      grouped[r.emoji].count++;
+      grouped[r.emoji].users.push(r.display_name);
+      if (r.user_id === msgUser.id) grouped[r.emoji].mine = true;
+    });
+    let reactionsHtml = '';
+    if (Object.keys(grouped).length) {
+      reactionsHtml = '<div class="msg-reactions">' + Object.values(grouped).map(g =>
+        '<span class="msg-reaction-badge' + (g.mine ? ' mine' : '') + '" title="' + g.users.join(', ') + '" onclick="toggleReaction(\'' + m.id + '\',\'' + g.emoji + '\')">' +
+          g.emoji + '<span class="rcount">' + g.count + '</span>' +
+        '</span>'
+      ).join('') + '</div>';
+    }
+
+    // Quick react picker
+    const reactPicker = '<div class="react-quick-picker" id="react-picker-' + m.id + '">' +
+      QUICK_REACTIONS.map(e => '<span class="react-quick-emoji" onclick="toggleReaction(\'' + m.id + '\',\'' + e + '\')">' + e + '</span>').join('') +
+    '</div>';
+
+    const isPinned = pinnedMessage && pinnedMessage.id === m.id;
+
+    return '<div class="msg-bubble ' + (isSent ? 'sent' : 'received') + '" id="msg-' + m.id + '" style="position:relative;">' +
+      '<span class="msg-react-btn" onclick="showReactPicker(\'' + m.id + '\', event)" title="React">&#x1F600;</span>' +
+      '<span class="msg-pin-option" onclick="pinMessage(\'' + m.id + '\')" title="Pin message">' + (isPinned ? '&#x1F4CC;' : '&#x1F4CC;') + '</span>' +
+      reactPicker +
+      mediaHtml +
+      '<div>' + escapeHtml(displayText) + '</div>' +
+      (showTranslation ? '<div class="msg-translated">EN: ' + escapeHtml(m.content_en) + '</div>' : '') +
+      reactionsHtml +
+      '<div class="msg-time">' + time + (isPinned ? ' &#x1F4CC;' : '') + '</div>' +
+    '</div>';
+  }).join('');
+
+  if (!silent) container.scrollTop = container.scrollHeight;
+};
+
+// ================================================================
+// UPDATE WEBSOCKET TO HANDLE NEW EVENTS
+// ================================================================
+const _originalMsgConnectWS = msgConnectWS;
+msgConnectWS = function(convId) {
+  if (msgWs) { try { msgWs.close(); } catch(e) {} }
+  try {
+    msgWs = new WebSocket(WS_BASE + '/ws/' + convId + '?userId=' + msgUser.id);
+    msgWs.onmessage = (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        switch (data.type) {
+          case 'new_message':
+            if (activeConvId === convId) msgLoadMessages(convId);
+            msgLoadConversations();
+            break;
+          case 'user_online':
+            onlineUsers.add(data.userId);
+            renderConversations();
+            break;
+          case 'user_offline':
+            onlineUsers.delete(data.userId);
+            renderConversations();
+            break;
+          case 'online_users':
+            if (data.users) data.users.forEach(u => onlineUsers.add(u));
+            renderConversations();
+            break;
+          case 'typing':
+            document.getElementById('msg-typing').textContent = (data.displayName || 'User') + ' is typing...';
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => document.getElementById('msg-typing').textContent = '', 3000);
+            break;
+          case 'stop_typing':
+            document.getElementById('msg-typing').textContent = '';
+            break;
+          case 'reaction_update':
+            if (activeConvId === convId) msgLoadMessages(convId, true);
+            break;
+          case 'pin_update':
+            loadPinnedMessage();
+            break;
+          case 'webrtc_signal':
+            handleWebRTCSignal(data);
+            break;
+          case 'call_end':
+            endCall();
+            break;
+          case 'call_reject':
+            endCall();
+            break;
+        }
+      } catch(err) {}
+    };
+    msgWs.onclose = () => { msgWs = null; };
+  } catch(e) {}
+};
+
+// ================================================================
+// PATCH: Load pinned on conversation open
+// ================================================================
+const _originalMsgOpenConversation = msgOpenConversation;
+msgOpenConversation = async function(convId, otherUserId, otherName) {
+  activeConvId = convId;
+  activeConvOtherUserId = otherUserId;
+  activeConvOtherName = otherName;
+  document.getElementById('msg-chat-name').textContent = otherName || 'Chat';
+  document.getElementById('msg-call-btn').style.display = 'inline-block';
+  document.getElementById('msg-input-bar').style.display = 'flex';
+
+  document.querySelectorAll('.msg-conv-item').forEach(el => el.classList.remove('active'));
+  const items = document.querySelectorAll('.msg-conv-item');
+  items.forEach(el => { if (el.onclick && el.onclick.toString().includes(convId)) el.classList.add('active'); });
+
+  await loadPinnedMessage();
+  await msgLoadMessages(convId);
+  msgConnectWS(convId);
+};
+
+// ================================================================
+// PATCH: showTab to init Notes
+// ================================================================
+const _originalShowTab = showTab;
+showTab = function(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const tabBtn = document.querySelector('.tab[onclick*="' + name + '"]');
+    if (tabBtn) tabBtn.classList.add('active');
+  }
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'notes') notesInit();
+};
 
 // ================================================================
 // AUTO-LOGIN CHECK ON LOAD

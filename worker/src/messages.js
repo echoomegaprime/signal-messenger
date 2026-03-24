@@ -28,6 +28,30 @@ export async function handleMessages(request, env, path) {
     return sendMessage(request, user, env);
   }
 
+  // POST /messages/:id/react
+  const reactMatch = path.match(/^\/messages\/([^\/]+)\/react$/);
+  if (reactMatch && request.method === 'POST') {
+    return toggleReaction(reactMatch[1], request, user, env);
+  }
+
+  // GET /messages/:id/reactions
+  const reactGetMatch = path.match(/^\/messages\/([^\/]+)\/reactions$/);
+  if (reactGetMatch && request.method === 'GET') {
+    return getReactions(reactGetMatch[1], user, env);
+  }
+
+  // POST /conversations/:id/pin
+  const pinMatch = path.match(/^\/conversations\/([^\/]+)\/pin$/);
+  if (pinMatch && request.method === 'POST') {
+    return pinMessage(pinMatch[1], request, user, env);
+  }
+
+  // GET /conversations/:id/pin
+  const pinGetMatch = path.match(/^\/conversations\/([^\/]+)\/pin$/);
+  if (pinGetMatch && request.method === 'GET') {
+    return getPinnedMessage(pinGetMatch[1], user, env);
+  }
+
   // DELETE /messages/:id
   const delMatch = path.match(/^\/messages\/([^\/]+)$/);
   if (delMatch && request.method === 'DELETE') {
@@ -152,6 +176,107 @@ async function sendMessage(request, user, env) {
   } catch (e) { /* WebSocket broadcast best-effort */ }
 
   return json(message);
+}
+
+async function toggleReaction(msgId, request, user, env) {
+  const { emoji } = await request.json();
+  if (!emoji) return json({ error: 'Missing emoji' }, 400);
+
+  // Check if reaction already exists
+  const existing = await env.DB.prepare(
+    'SELECT id FROM message_reactions WHERE message_id = ? AND user_id = ? AND emoji = ?'
+  ).bind(msgId, user.id, emoji).first();
+
+  if (existing) {
+    await env.DB.prepare('DELETE FROM message_reactions WHERE id = ?').bind(existing.id).run();
+  } else {
+    const id = crypto.randomUUID();
+    await env.DB.prepare(
+      'INSERT INTO message_reactions (id, message_id, user_id, emoji, created_at) VALUES (?, ?, ?, ?, ?)'
+    ).bind(id, msgId, user.id, emoji, Date.now()).run();
+  }
+
+  // Get updated reactions for this message
+  const reactions = await env.DB.prepare(
+    'SELECT r.emoji, r.user_id, u.display_name FROM message_reactions r JOIN users u ON u.id = r.user_id WHERE r.message_id = ? ORDER BY r.created_at'
+  ).bind(msgId).all();
+
+  // Get conversation_id for broadcast
+  const msg = await env.DB.prepare('SELECT conversation_id FROM messages WHERE id = ?').bind(msgId).first();
+  if (msg) {
+    try {
+      const roomObj = env.ROOMS.get(env.ROOMS.idFromName(msg.conversation_id));
+      await roomObj.fetch(new Request('https://internal/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'reaction_update', message_id: msgId, reactions: reactions.results || [] })
+      }));
+    } catch (e) { /* best effort */ }
+  }
+
+  return json({ ok: true, reactions: reactions.results || [] });
+}
+
+async function getReactions(msgId, user, env) {
+  const reactions = await env.DB.prepare(
+    'SELECT r.emoji, r.user_id, u.display_name FROM message_reactions r JOIN users u ON u.id = r.user_id WHERE r.message_id = ? ORDER BY r.created_at'
+  ).bind(msgId).all();
+  return json(reactions.results || []);
+}
+
+async function pinMessage(convId, request, user, env) {
+  const conv = await env.DB.prepare(
+    'SELECT * FROM conversations WHERE id = ? AND (user_a = ? OR user_b = ?)'
+  ).bind(convId, user.id, user.id).first();
+  if (!conv) return json({ error: 'Not found' }, 404);
+
+  const { message_id } = await request.json();
+  // If message_id is null, unpin
+  if (!message_id) {
+    await env.DB.prepare('UPDATE conversations SET pinned_message_id = NULL WHERE id = ?').bind(convId).run();
+    try {
+      const roomObj = env.ROOMS.get(env.ROOMS.idFromName(convId));
+      await roomObj.fetch(new Request('https://internal/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'pin_update', pinned: null })
+      }));
+    } catch (e) { /* best effort */ }
+    return json({ ok: true, pinned: null });
+  }
+
+  // Verify message belongs to this conversation
+  const msg = await env.DB.prepare(
+    'SELECT m.*, u.display_name as sender_name FROM messages m JOIN users u ON u.id = m.sender_id WHERE m.id = ? AND m.conversation_id = ?'
+  ).bind(message_id, convId).first();
+  if (!msg) return json({ error: 'Message not found in this conversation' }, 404);
+
+  await env.DB.prepare('UPDATE conversations SET pinned_message_id = ? WHERE id = ?').bind(message_id, convId).run();
+
+  try {
+    const roomObj = env.ROOMS.get(env.ROOMS.idFromName(convId));
+    await roomObj.fetch(new Request('https://internal/broadcast', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'pin_update', pinned: msg })
+    }));
+  } catch (e) { /* best effort */ }
+
+  return json({ ok: true, pinned: msg });
+}
+
+async function getPinnedMessage(convId, user, env) {
+  const conv = await env.DB.prepare(
+    'SELECT * FROM conversations WHERE id = ? AND (user_a = ? OR user_b = ?)'
+  ).bind(convId, user.id, user.id).first();
+  if (!conv) return json({ error: 'Not found' }, 404);
+
+  if (!conv.pinned_message_id) return json({ pinned: null });
+
+  const msg = await env.DB.prepare(
+    'SELECT m.*, u.display_name as sender_name FROM messages m JOIN users u ON u.id = m.sender_id WHERE m.id = ?'
+  ).bind(conv.pinned_message_id).first();
+  return json({ pinned: msg || null });
 }
 
 async function deleteMessage(msgId, user, env) {

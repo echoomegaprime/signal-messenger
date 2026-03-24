@@ -1,6 +1,7 @@
 import { handleAuth } from './auth.js';
 import { handleMessages } from './messages.js';
 import { handleMedia } from './media.js';
+import { handleNotes } from './notes.js';
 export { ChatRoom } from './rooms.js';
 
 const CORS = {
@@ -52,6 +53,8 @@ export default {
         response = await handleMessages(request, env, path);
       } else if (path.startsWith('/media/')) {
         response = await handleMedia(request, env, path);
+      } else if (path.startsWith('/notes')) {
+        response = await handleNotes(request, env, path);
       } else if (path === '/users/search') {
         response = await handleUserSearch(request, env);
       } else if (path === '/users/list') {
